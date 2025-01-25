@@ -28,7 +28,6 @@ export default function RootLayout({ children }) {
       <body
         className={`${yesevaOne.variable} ${josefinSans.variable} antialiased relative bg-white text-primary-500 font-[family-name:var(--font-text)]`}
       >
-        <Header />
         {children}
       </body>
     </html>
