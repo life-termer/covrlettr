@@ -7,6 +7,7 @@ import { z } from "zod";
 import MainForm from "../_components/MainForm";
 import CoverLetter from "./CoverLetter";
 import { Button } from "./ui/button";
+import { UserRoundCog } from "lucide-react";
 
 const formSchema = z.object({
   // firstName: z.string().min(2, {
@@ -46,16 +47,16 @@ function App() {
     form.reset();
   };
   return (
-    <div className="flex py-5">
-      <div className="w-1/3 flex-auto">
+    <div className="flex flex-wrap lg:flex-nowrap py-5 px-2 lg:px-0 gap-y-12">
+      <div className="w-full lg:w-1/3 flex-auto px-0 sm:px-3">
         <div className="flex gap-3 px-1 mb-4">
           <div className="w-1/2 flex-auto">
-            <Button variant="secondary" disabled>
-              Fill from account
+            <Button variant="secondary" size="full" disabled>
+              Fill from <UserRoundCog />
             </Button>
           </div>
           <div className="w-1/2 flex-auto">
-            <Button variant="secondary" onClick={handleReset}>
+            <Button variant="secondary" size="full" onClick={handleReset}>
               Clear All
             </Button>
           </div>
@@ -63,7 +64,7 @@ function App() {
         <MainForm form={form} />
       </div>
 
-      <div className="w-2/3 flex-auto">
+      <div className="w-full lg:w-2/3 flex-auto px-0 sm:px-3">
         <CoverLetter form={form} />
       </div>
     </div>

@@ -24,7 +24,7 @@ function MainForm({ form }) {
     <div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 px-1">
-          <ScrollArea className="h-[700px] w-[100%] rounded-md border p-4 top-0">
+          <ScrollArea className="h-[340px] lg:h-[700px] w-full lg:w-[100%] rounded-md border p-2 sm:p-4 top-0">
             <div className="mb-14">
               <h3
                 id="job"
@@ -45,9 +45,6 @@ function MainForm({ form }) {
                       <FormControl>
                         <Input placeholder="Front-End Developer" {...field} />
                       </FormControl>
-                      <FormDescription>
-                        This is your public display name.
-                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -56,7 +53,7 @@ function MainForm({ form }) {
                   control={form.control}
                   name="company"
                   render={({ field }) => (
-                    <FormItem className="w-1/22 px-1">
+                    <FormItem className="w-1/2 px-1">
                       <FormLabel>
                         Company
                         <Sparkles className="w-3 ms-1 -mt-3 inline-block" />
@@ -198,9 +195,6 @@ function MainForm({ form }) {
                           {...field}
                         />
                       </FormControl>
-                      <FormDescription>
-                        This is your public display name.
-                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -420,7 +414,7 @@ function MainForm({ form }) {
             </p>
           </div>
           <div className="text-center">
-            <Button type="submit" variant="secondary">
+            <Button type="submit" variant="secondary" size="full">
               Generate
             </Button>
           </div>

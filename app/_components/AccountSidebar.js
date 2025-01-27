@@ -37,24 +37,19 @@ import Link from "next/link";
 // Menu items.
 const items = [
   {
-    title: "Create New",
-    url: "/cl",
-    icon: NotebookPen,
-  },
-  {
-    title: "Account",
+    title: "Profile",
     url: "/account",
-    icon: UserRoundCog,
+    icon: ContactRound,
   },
   {
     title: "Cover Letters",
-    url: "#details",
-    icon: ContactRound,
+    url: "/cl/#job",
+    icon: NotebookPen,
     disabled: true,
   },
 ];
 
-export default async function AppSidebar() {
+export default async function AccountSidebar() {
   const session = await auth();
   return (
     <Sidebar collapsible="icon">
@@ -94,8 +89,8 @@ export default async function AppSidebar() {
             <SidebarMenuItem>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <SidebarMenuButton className="h-11 group-data-[collapsible=icon]:p-[4!important] group-data-[collapsible=icon]:w-[2.5rem!important]">
-                    <Avatar className=" group-data-[collapsible=icon]:w-8  group-data-[collapsible=icon]:h-8">
+                  <SidebarMenuButton className="h-11">
+                    <Avatar>
                       {session.user?.image && (
                         <AvatarImage
                           src={session.user.image}
@@ -107,10 +102,8 @@ export default async function AppSidebar() {
                         <User />
                       </AvatarFallback>
                     </Avatar>
-                    <span className="group-data-[collapsible=icon]:hidden">
-                      {session.user.name}
-                    </span>
-                    <ChevronUp className="ml-auto group-data-[collapsible=icon]:hidden" />
+                    {session.user.name}
+                    <ChevronUp className="ml-auto" />
                   </SidebarMenuButton>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent

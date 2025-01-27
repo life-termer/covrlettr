@@ -2,7 +2,7 @@ function CustomSvg(props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="h-60"
+      className="h-52 lg:h-60"
       style={{
         fill: "#05445e",
       }}

@@ -1,4 +1,6 @@
 import { useRef, useState } from "react";
+import { Pen, Pencil } from "lucide-react";
+
 function CoverLetterResponse({ recipientName }) {
   const [response, setResponse] = useState("");
   const ref = useRef();
@@ -11,6 +13,7 @@ function CoverLetterResponse({ recipientName }) {
       onBlur={onBlur}
       contentEditable
       suppressContentEditableWarning={true}
+      className="relative p-2 focus-visible:outline-2 focus-visible:outline-secondary-500"
     >
       <p className="mb-4">
         Dear {recipientName ? recipientName : "Sir or Madam"},
@@ -52,6 +55,7 @@ function CoverLetterResponse({ recipientName }) {
         welcome the chance to discuss how my experience and expertise align with
         your needs.
       </p>
+      <Pencil className="absolute top-1 right-1 text-secondary-700" />
     </div>
   );
 }

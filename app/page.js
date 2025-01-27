@@ -13,7 +13,7 @@ import Header from "./_components/Header";
 export default function Home() {
   return (
     <>
-      <Header />
+      <Header type="landing" />
       <main>
         <section
           id="top"
@@ -45,13 +45,13 @@ export default function Home() {
             </div>
           </Container>
         </section>
-        <section id="features" className="bg-white w-full py-28">
+        <section id="features" className="bg-white w-full py-20 sm:py-28">
           <Container>
-            <h2 className="text-primary-700 text-center text-5xl font-[family-name:var(--font-heading)] mb-28 uppercase">
+            <h2 className="text-primary-700 text-center text-5xl font-[family-name:var(--font-heading)] mb-20 sm:mb-28 uppercase">
               Features
             </h2>
-            <div className="grid grid-cols-6 gap-x-8 ">
-              <div className="col-span-2 flex flex-col items-center gap-y-4 text-center">
+            <div className="grid grid-cols-6 gap-8 ">
+              <div className="col-span-6 sm:col-span-3 lg:col-span-2 flex flex-col items-center gap-y-4 text-center">
                 <CustomSvg />
                 <h3 className="text-primary-700 font-[family-name:var(--font-heading)] text-3xl">
                   AI-Powered Customization
@@ -61,7 +61,7 @@ export default function Home() {
                   description and your experience.
                 </p>
               </div>
-              <div className="col-span-2 flex flex-col items-center gap-y-4 text-center">
+              <div className="col-span-6 sm:col-span-3 lg:col-span-2 flex flex-col items-center gap-y-4 text-center">
                 <TimeSvg />
                 <h3 className="text-primary-700 font-[family-name:var(--font-heading)] text-3xl">
                   Time
@@ -72,7 +72,7 @@ export default function Home() {
                   Create professional cover letters in minutes, not hours.
                 </p>
               </div>
-              <div className="col-span-2 flex flex-col items-center gap-y-4 text-center">
+              <div className="col-span-6 lg:col-span-2 flex flex-col items-center gap-y-4 text-center">
                 <InterfaceSvg />
                 <h3 className="text-primary-700 font-[family-name:var(--font-heading)] text-3xl">
                   User-Friendly
@@ -93,17 +93,17 @@ export default function Home() {
         </section>
         <section
           id="how-it-works"
-          className="bg-gradient-to-b from-white via-secondary-400 to-secondary-600 w-full pt-28 pb-56"
+          className="bg-gradient-to-b from-white via-secondary-400 to-secondary-600 w-full pt-20 sm:pt-28 pb-56"
         >
           <Container>
             <h2 className="text-primary-700 text-5xl text-center font-[family-name:var(--font-heading)] mb-24 uppercase">
               How It Works
             </h2>
-            <div className="flex items-center">
-              <div className="flex-auto lg:w-1/2 flex justify-center items-center">
+            <div className="flex flex-wrap lg:flex-nowrap items-center gap-10 sm:gap-12 lg:gap-3">
+              <div className="flex-auto w-full lg:w-1/2 flex justify-center items-center">
                 <LaptopSvg />
               </div>
-              <div className="flex-auto lg:w-1/2 flex flex-col gap-y-12">
+              <div className="flex-auto w-full lg:w-1/2 flex flex-col gap-y-10 sm:gap-y-12">
                 <div>
                   <h3 className="text-primary-700 text-2xl font-[family-name:var(--font-heading)] mb-1 uppercase">
                     1. Input Your Details

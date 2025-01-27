@@ -10,7 +10,7 @@ function Footer() {
             © {new Date().getFullYear()} COVRLETTR
           </div>
           <div className="flex-auto order-1 sm:order-2 text-end">
-            <Link href="/" className=" hover:text-brand">
+            <Link href="/terms-and-privacy" className=" hover:text-brand">
               Terms and Privacy
             </Link>
           </div>

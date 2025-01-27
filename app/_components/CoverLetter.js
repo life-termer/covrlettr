@@ -1,11 +1,17 @@
+import { useState } from "react";
 import CoverLetterControls from "./CoverLetterControls";
 import CoverLetterTemplate from "./CoverLetterTemplate";
 
 function CoverLetter({ form }) {
+  const [fontFamily, setFontFamily] = useState("arial");
+  console.log(fontFamily);
   return (
-    <div className="px-3">
-      <CoverLetterControls />
-      <CoverLetterTemplate form={form} />
+    <div>
+      <CoverLetterControls
+        fontFamily={fontFamily}
+        setFontFamily={setFontFamily}
+      />
+      <CoverLetterTemplate form={form} fontFamily={fontFamily} />
     </div>
   );
 }
