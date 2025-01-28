@@ -1,6 +1,5 @@
 import {
   ChevronUp,
-  Settings,
   ContactRound,
   UserRoundCog,
   NotebookPen,
@@ -30,8 +29,6 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { auth } from "../_lib/auth";
 import SignOutButton from "./SignOutButton";
-import { signOutAction } from "../_lib/actions";
-import SignInButton from "./SignInButton";
 import Link from "next/link";
 
 // Menu items.

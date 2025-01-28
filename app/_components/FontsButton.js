@@ -115,17 +115,3 @@ export default function FontsButton({ fontFamily, setFontFamily }) {
     </Popover>
   );
 }
-
-// import { BiFontFamily } from "react-icons/bi";
-// import { Button } from "./ui/button";
-
-// function fontFamilyButton() {
-//   return (
-//     <Button variant="secondary" className="px-2">
-//
-//       <span className="hidden xl:block">Arial</span>
-//     </Button>
-//   );
-// }
-
-// export default fontFamilyButton;

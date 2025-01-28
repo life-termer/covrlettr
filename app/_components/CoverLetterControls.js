@@ -10,6 +10,10 @@ import { RxLineHeight } from "react-icons/rx";
 import { BiFontFamily } from "react-icons/bi";
 import { BsFiletypePdf } from "react-icons/bs";
 import FontsButton from "./FontsButton";
+import FontSizeButton from "./FontSizeButton";
+import LineHeightButton from "./LineHeightButton";
+import ColorButton from "./ColorButton";
+import ExportButton from "./ExportButton";
 
 function CoverLetterControls(props) {
   return (
@@ -25,24 +29,26 @@ function CoverLetterControls(props) {
           fontFamily={props.fontFamily}
           setFontFamily={props.setFontFamily}
         />
-        <Button variant="secondary">
-          <RiFontSize2 />
-          <span className="hidden xl:block">M</span>
-        </Button>
-        <Button variant="secondary">
-          <RxLineHeight />
-          <span className="hidden xl:block">1.25</span>
-        </Button>
-        <Button variant="secondary">
-          <Palette />
-          <span className="hidden xl:block">Color</span>
-        </Button>
+
+        <FontSizeButton
+          fontSize={props.fontSize}
+          setFontSize={props.setFontSize}
+        />
+        <LineHeightButton
+          lineHeight={props.lineHeight}
+          setLineHeight={props.setLineHeight}
+        />
+        <ColorButton
+          mainColor={props.mainColor}
+          setMainColor={props.setMainColor}
+        />
       </div>
       <div className="flex-auto w-2/12 2xl:w-3/12">
-        <Button variant="secondary" size="full">
-          <BsFiletypePdf />
-          <span className="hidden xl:block">Export</span>
-        </Button>
+        <ExportButton
+          toPDF={props.toPDF}
+          targetRef={props.targetRef}
+          fileName={props.fileName}
+        />
       </div>
     </div>
   );

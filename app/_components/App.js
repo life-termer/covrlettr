@@ -64,7 +64,7 @@ function App() {
         <MainForm form={form} />
       </div>
 
-      <div className="w-full lg:w-2/3 flex-auto px-0 sm:px-3">
+      <div className="w-full lg:w-2/3 flex-auto px-0 sm:px-3 mb-28 lg:mb-0">
         <CoverLetter form={form} />
       </div>
     </div>
