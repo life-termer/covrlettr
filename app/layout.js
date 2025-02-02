@@ -1,5 +1,7 @@
 import { Yeseva_One, Josefin_Sans, Noto_Sans, Poppins } from "next/font/google";
 import "@/app/_styles/globals.css";
+import { Toaster } from "./_components/ui/toaster";
+import { MainContextProvider } from "./_lib/mainContext";
 
 const yesevaOne = Yeseva_One({
   variable: "--font-heading",
@@ -40,7 +42,8 @@ export default function RootLayout({ children }) {
       <body
         className={`${yesevaOne.variable} ${josefinSans.variable} ${notoSans.variable} ${poppins.variable} antialiased relative bg-white text-primary-500 font-[family-name:var(--font-text)]`}
       >
-        {children}
+        <MainContextProvider>{children}</MainContextProvider>
+        <Toaster />
       </body>
     </html>
   );

@@ -74,10 +74,10 @@ export default async function AppSidebar() {
                     asChild
                     className="text-lg font-[family-name:var(--font-heading)] uppercase tracking-wide"
                   >
-                    <a href={item.url}>
+                    <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

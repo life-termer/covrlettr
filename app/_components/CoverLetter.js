@@ -2,16 +2,19 @@ import { useState } from "react";
 import CoverLetterControls from "./CoverLetterControls";
 import CoverLetterTemplate from "./CoverLetterTemplate";
 import { Margin, usePDF } from "react-to-pdf";
+import Spinner from "./Spinner";
+import SpinnerComment from "./SpinnerComment";
+import { useMainContext } from "../_lib/mainContext";
 
-function CoverLetter({ form }) {
-  const { name, surname, position } = form.getValues();
+function CoverLetter({ watchFields, response, isLoading }) {
+  const { name, surname, position } = watchFields;
   const fileName = `${name && name + "-"}${surname && surname + "-"}${
     position && position + "-"
   }Cover-Letter`;
-  const [fontFamily, setFontFamily] = useState("arial");
-  const [fontSize, setFontSize] = useState("m");
-  const [lineHeight, setLineHeight] = useState("m");
-  const [mainColor, setMainColor] = useState("#000");
+  const { fontFamily, setFontFamily } = useMainContext();
+  const { fontSize, setFontSize } = useMainContext();
+  const { lineHeight, setLineHeight } = useMainContext();
+  const { mainColor, setMainColor } = useMainContext();
   const { toPDF, targetRef } = usePDF({
     method: "open",
     filename: fileName,
@@ -19,7 +22,7 @@ function CoverLetter({ form }) {
   });
 
   return (
-    <div>
+    <div className="h-full">
       <CoverLetterControls
         fontFamily={fontFamily}
         setFontFamily={setFontFamily}
@@ -33,13 +36,16 @@ function CoverLetter({ form }) {
         targetRef={targetRef}
         fileName={fileName}
       />
+
       <CoverLetterTemplate
-        form={form}
+        watchFields={watchFields}
         fontFamily={fontFamily}
         fontSize={fontSize}
         lineHeight={lineHeight}
         mainColor={mainColor}
         targetRef={targetRef}
+        response={response}
+        isLoading={isLoading}
       />
     </div>
   );

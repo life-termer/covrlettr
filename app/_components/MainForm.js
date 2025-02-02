@@ -13,17 +13,17 @@ import { ScrollArea } from "@/app/_components/ui/scroll-area";
 import { Textarea } from "@/app/_components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/app/_components/ui/radio-group";
 import { Sparkles } from "lucide-react";
+import { generateResponse } from "../_lib/actions";
+import Spinner from "./Spinner";
 
-function MainForm({ form }) {
-  function onSubmit(values) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-  }
+function MainForm({ form, onSubmit, onError, isLoading }) {
   return (
     <div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 px-1">
+        <form
+          onSubmit={form.handleSubmit(onSubmit, onError)}
+          className="space-y-3 px-1"
+        >
           <ScrollArea className="h-[340px] lg:h-[700px] w-full lg:w-[100%] rounded-md border p-2 sm:p-4 top-0">
             <div className="mb-14">
               <h3
@@ -59,7 +59,7 @@ function MainForm({ form }) {
                         <Sparkles className="w-3 ms-1 -mt-3 inline-block" />
                       </FormLabel>
                       <FormControl>
-                        <Input placeholder="Google" {...field} />
+                        <Input placeholder="Tech Innovators Inc." {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -73,13 +73,13 @@ function MainForm({ form }) {
                   render={({ field }) => (
                     <FormItem className="w-full px-1">
                       <FormLabel>
-                        Job description
+                        Job description (Implied Context):
                         <Sparkles className="w-3 ms-1 -mt-3 inline-block" />
                       </FormLabel>
                       <FormControl>
                         <Textarea
                           rows="7"
-                          placeholder="Insert job description"
+                          placeholder="Front-end development role focused on UI/UX, performance optimization, and collaboration with teams"
                           className=""
                           {...field}
                         />
@@ -94,10 +94,26 @@ function MainForm({ form }) {
                   control={form.control}
                   name="recipientName"
                   render={({ field }) => (
-                    <FormItem className="w-full px-1">
+                    <FormItem className="w-1/2 px-1">
                       <FormLabel>Contact Person</FormLabel>
                       <FormControl>
-                        <Input placeholder="Hire manager" {...field} />
+                        <Input placeholder="Emma Smith" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="website"
+                  render={({ field }) => (
+                    <FormItem className="w-1/2 px-1">
+                      <FormLabel>
+                        Company Website
+                        <Sparkles className="w-3 ms-1 -mt-3 inline-block" />
+                      </FormLabel>
+                      <FormControl>
+                        <Input placeholder="techIn.com" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -168,7 +184,7 @@ function MainForm({ form }) {
                       <FormControl>
                         <Textarea
                           rows="4"
-                          placeholder="3 years of experience as a Front-End Developer"
+                          placeholder="3 years in web development, currently at Web Solutions Ltd."
                           className=""
                           {...field}
                         />
@@ -191,7 +207,7 @@ function MainForm({ form }) {
                       </FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="JavaScript, React, CSS"
+                          placeholder="React.js, JavaScript, HTML, CSS, modern frameworks"
                           {...field}
                         />
                       </FormControl>
@@ -365,8 +381,13 @@ function MainForm({ form }) {
                   control={form.control}
                   name="length"
                   render={({ field }) => (
-                    <FormItem className="w-1/2 px-1">
+                    <FormItem className="w-full px-1">
                       <FormLabel>Length</FormLabel>
+                      <input
+                        type="hidden"
+                        name="actionLength"
+                        value={field.value}
+                      />
                       <FormControl>
                         <RadioGroup
                           onValueChange={field.onChange}
@@ -375,7 +396,7 @@ function MainForm({ form }) {
                         >
                           <FormItem className="flex items-center space-x-3 space-y-0 relative">
                             <FormControl>
-                              <RadioGroupItem value="short" />
+                              <RadioGroupItem value="200" />
                             </FormControl>
                             <FormLabel className="font-normal">
                               Short (max 200 words)
@@ -383,7 +404,7 @@ function MainForm({ form }) {
                           </FormItem>
                           <FormItem className="flex items-center space-x-3 space-y-0 relative">
                             <FormControl>
-                              <RadioGroupItem value="medium" />
+                              <RadioGroupItem value="300" />
                             </FormControl>
                             <FormLabel className="font-normal">
                               Medium (max 300 words)
@@ -391,12 +412,109 @@ function MainForm({ form }) {
                           </FormItem>
                           <FormItem className="flex items-center space-x-3 space-y-0 relative">
                             <FormControl>
-                              <RadioGroupItem value="long" />
+                              <RadioGroupItem value="400" />
                             </FormControl>
                             <FormLabel className="font-normal">
                               Long (max 400 words)
                             </FormLabel>
                           </FormItem>
+                        </RadioGroup>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="flex space-x-3 mb-3">
+                <FormField
+                  control={form.control}
+                  name="tone"
+                  render={({ field }) => (
+                    <FormItem className="w-full px-1">
+                      <FormLabel>Tone</FormLabel>
+                      <input
+                        type="hidden"
+                        name="actionTone"
+                        value={field.value}
+                      />
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                          className="flex flex-col space-y-0"
+                        >
+                          <FormItem className="flex items-center space-x-3 space-y-0 relative">
+                            <FormControl>
+                              <RadioGroupItem value="formal and professional" />
+                            </FormControl>
+                            <FormLabel className="font-normal">
+                              Formal & Professional
+                            </FormLabel>
+                          </FormItem>
+                          <span className="text-xs text-secondary-700">
+                            Corporate roles, law, finance, academia, government,
+                            or traditional industries
+                          </span>
+                          <FormItem className="flex items-center space-x-3 space-y-0 relative">
+                            <FormControl>
+                              <RadioGroupItem value="enthusiastic and passionate" />
+                            </FormControl>
+                            <FormLabel className="font-normal">
+                              Enthusiastic & Passionate
+                            </FormLabel>
+                          </FormItem>
+                          <span className="text-xs text-secondary-700">
+                            Startups, tech companies, creative fields, roles
+                            requiring innovation or leadership
+                          </span>
+                          <FormItem className="flex items-center space-x-3 space-y-0 relative">
+                            <FormControl>
+                              <RadioGroupItem value="persuasive and results-Driven" />
+                            </FormControl>
+                            <FormLabel className="font-normal">
+                              Persuasive & Results-Driven
+                            </FormLabel>
+                          </FormItem>
+                          <span className="text-xs text-secondary-700">
+                            Sales, marketing, leadership positions,
+                            goal-oriented roles
+                          </span>
+                          <FormItem className="flex items-center space-x-3 space-y-0 relative">
+                            <FormControl>
+                              <RadioGroupItem value="warm and personal" />
+                            </FormControl>
+                            <FormLabel className="font-normal">
+                              Warm & Personal
+                            </FormLabel>
+                          </FormItem>
+                          <span className="text-xs text-secondary-700">
+                            Non-profits, human-centered roles, customer service,
+                            HR, healthcare
+                          </span>
+                          <FormItem className="flex items-center space-x-3 space-y-0 relative">
+                            <FormControl>
+                              <RadioGroupItem value="confident and direct" />
+                            </FormControl>
+                            <FormLabel className="font-normal">
+                              Confident & Direct
+                            </FormLabel>
+                          </FormItem>
+                          <span className="text-xs text-secondary-700">
+                            Executive roles, leadership positions, competitive
+                            industries
+                          </span>
+                          <FormItem className="flex items-center space-x-3 space-y-0 relative">
+                            <FormControl>
+                              <RadioGroupItem value="creative and storytelling" />
+                            </FormControl>
+                            <FormLabel className="font-normal">
+                              Creative & Storytelling
+                            </FormLabel>
+                          </FormItem>
+                          <span className="text-xs text-secondary-700">
+                            Creative industries (design, writing, media,
+                            advertising)
+                          </span>
                         </RadioGroup>
                       </FormControl>
                       <FormMessage />
@@ -414,7 +532,12 @@ function MainForm({ form }) {
             </p>
           </div>
           <div className="text-center">
-            <Button type="submit" variant="secondary" size="full">
+            <Button
+              type="submit"
+              variant="secondary"
+              size="full"
+              className={`${isLoading && "pointer-events-none opacity-40"}`}
+            >
               Generate
             </Button>
           </div>

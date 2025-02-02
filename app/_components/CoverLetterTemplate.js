@@ -1,14 +1,18 @@
 import { Copy } from "lucide-react";
 import CoverLetterResponse from "./CoverLetterResponse";
 import { ScrollArea } from "./ui/scroll-area";
+import { useToast } from "../_hooks/use-toast";
+import SpinnerComment from "./SpinnerComment";
 
 function CoverLetterTemplate({
-  form,
+  watchFields,
   fontFamily,
   fontSize,
   lineHeight,
   mainColor,
   targetRef,
+  response,
+  isLoading,
 }) {
   const fontFamilies = {
     arial: "font-arial",
@@ -43,11 +47,15 @@ function CoverLetterTemplate({
     recipientPostCode,
     recipientAddress,
     recipientCity,
-  } = form.getValues();
+  } = watchFields;
+  const { toast } = useToast();
 
   const copyToClipboard = () => {
     const text = targetRef.current?.innerText;
     navigator.clipboard.writeText(text);
+    toast({
+      description: "Copied to clipboard.",
+    });
   };
 
   return (
@@ -87,8 +95,18 @@ function CoverLetterTemplate({
             recipientAddress ||
             recipientCity) && <p className="mb-4"></p>}
         </div>
-
-        <CoverLetterResponse recipientName={recipientName} />
+        {isLoading ? (
+          <SpinnerComment />
+        ) : (
+          response && (
+            <CoverLetterResponse
+              name={name}
+              surname={surname}
+              recipientName={recipientName}
+              response={response}
+            />
+          )
+        )}
       </div>
     </ScrollArea>
   );
