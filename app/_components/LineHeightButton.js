@@ -21,6 +21,7 @@ import {
 import { BiFontFamily } from "react-icons/bi";
 import { RiFontSize2 } from "react-icons/ri";
 import { RxLineHeight } from "react-icons/rx";
+import { useMainContext } from "../_lib/mainContext";
 
 const heights = [
   {
@@ -45,9 +46,9 @@ const heights = [
   },
 ];
 
-export default function LineHeightButton({ lineHeight, setLineHeight }) {
+export default function LineHeightButton() {
   const [open, setOpen] = React.useState(false);
-
+  const { lineHeight, setLineHeight } = useMainContext();
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>

@@ -4,8 +4,10 @@ import { createContext, useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 
 const MainContext = createContext();
+
 const initialStates = {
   response: undefined,
+  template: "blank",
   fontFamily: "arial",
   fontSize: "m",
   lineHeight: "m",
@@ -40,6 +42,7 @@ function MainContextProvider({ children }) {
   const [editedResponse, setEditedResponse] = useState(
     initialStates.editedResponse
   );
+  const [template, setTemplate] = useState(initialStates.template);
   const [fontFamily, setFontFamily] = useState(initialStates.fontFamily);
   const [fontSize, setFontSize] = useState(initialStates.fontSize);
   const [lineHeight, setLineHeight] = useState(initialStates.lineHeight);
@@ -76,6 +79,8 @@ function MainContextProvider({ children }) {
       value={{
         response,
         setResponse,
+        template,
+        setTemplate,
         fontFamily,
         setFontFamily,
         fontSize,

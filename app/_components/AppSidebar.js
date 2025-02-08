@@ -30,6 +30,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { auth } from "../_lib/auth";
 import SignOutButton from "./SignOutButton";
 import Link from "next/link";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip";
 
 // Menu items.
 const items = [
@@ -63,22 +69,44 @@ export default async function AppSidebar() {
               <Logo />
             </Link>
           </SidebarGroupLabel>
+
           <SidebarGroupContent>
             <SidebarMenu className="gap-2">
               {items.map((item) => (
                 <SidebarMenuItem
                   key={item.title}
-                  className={item.disabled && "opacity-50 pointer-events-none"}
+                  className={item.disabled && "opacity-50 "}
                 >
-                  <SidebarMenuButton
-                    asChild
-                    className="text-lg font-[family-name:var(--font-heading)] uppercase tracking-wide"
-                  >
-                    <Link href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
+                  {item.disabled ? (
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <SidebarMenuButton
+                            asChild
+                            className="text-lg font-[family-name:var(--font-heading)] uppercase tracking-wide"
+                          >
+                            <div>
+                              <item.icon />
+                              <span>{item.title}</span>
+                            </div>
+                          </SidebarMenuButton>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Coming Soon</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  ) : (
+                    <SidebarMenuButton
+                      asChild
+                      className="text-lg font-[family-name:var(--font-heading)] uppercase tracking-wide"
+                    >
+                      <Link href={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  )}
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>

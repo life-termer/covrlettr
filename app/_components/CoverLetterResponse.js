@@ -9,7 +9,7 @@ function CoverLetterResponse({ name, surname, recipientName, response }) {
   const { editedResponse, setEditedResponse } = useMainContext();
   const [tempHtml, setTempHtml] = useState();
   const onBlur = () => {
-    setEditedResponse(responseRef.current);
+    setEditedResponse(responseRef.current.innerHTML);
   };
   function escapeHtml(text) {
     const map = {
@@ -22,10 +22,8 @@ function CoverLetterResponse({ name, surname, recipientName, response }) {
     return text.replace(/[&<>"']/g, (char) => map[char]);
   }
   useEffect(() => {
-    editedResponse
-      ? setTempHtml(editedResponse.innerHTML)
-      : setTempHtml(response.string);
-  }, []);
+    editedResponse ? setTempHtml(editedResponse) : setTempHtml(response.string);
+  }, [response]);
 
   return (
     <>
@@ -40,7 +38,6 @@ function CoverLetterResponse({ name, surname, recipientName, response }) {
         <span className="block">
           <br />
         </span>
-        {console.log(editedResponse)}
         <div ref={responseRef}>
           {false ? ReactHtmlParser(editedResponse) : ReactHtmlParser(tempHtml)}
         </div>
@@ -52,7 +49,7 @@ function CoverLetterResponse({ name, surname, recipientName, response }) {
           {name && <span className="inline-block">{name}&nbsp;</span>}
           {surname && <span className="inline-block">{surname}</span>}
         </span>
-        <Pencil className="absolute top-1 right-1 text-secondary-700" />
+        {/* <Pencil className="absolute top-1 right-1 text-secondary-700" /> */}
       </div>
     </>
   );

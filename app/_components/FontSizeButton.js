@@ -20,6 +20,7 @@ import {
 } from "@/app/_components/ui/popover";
 import { BiFontFamily } from "react-icons/bi";
 import { RiFontSize2 } from "react-icons/ri";
+import { useMainContext } from "../_lib/mainContext";
 
 const sizes = [
   {
@@ -44,8 +45,9 @@ const sizes = [
   },
 ];
 
-export default function FontSizeButton({ fontSize, setFontSize }) {
+export default function FontSizeButton() {
   const [open, setOpen] = React.useState(false);
+  const { fontSize, setFontSize } = useMainContext();
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

@@ -19,6 +19,7 @@ import {
   PopoverTrigger,
 } from "@/app/_components/ui/popover";
 import { BiFontFamily } from "react-icons/bi";
+import { useMainContext } from "../_lib/mainContext";
 
 const fonts = [
   {
@@ -47,8 +48,9 @@ const fonts = [
   },
 ];
 
-export default function FontsButton({ fontFamily, setFontFamily }) {
+export default function FontsButton() {
   const [open, setOpen] = React.useState(false);
+  const { fontFamily, setFontFamily } = useMainContext();
 
   const fontFamilies = {
     arial: "font-arial",

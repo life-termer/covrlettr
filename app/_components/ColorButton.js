@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { useState } from "react";
-import { Check } from "lucide-react";
 
 import { cn } from "@/app/_lib/utils";
 import { Button } from "@/app/_components/ui/button";
@@ -15,9 +14,11 @@ import {
 
 import { Palette } from "lucide-react";
 import { SketchPicker } from "react-color";
+import { useMainContext } from "../_lib/mainContext";
 
-export default function ColorButton({ mainColor, setMainColor }) {
+export default function ColorButton() {
   const [open, setOpen] = useState(false);
+  const { mainColor, setMainColor } = useMainContext();
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

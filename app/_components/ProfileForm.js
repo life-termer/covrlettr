@@ -1,7 +1,4 @@
 "use client";
-import { Button } from "@/app/_components/ui/button";
-
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -17,9 +14,11 @@ import {
 import { Input } from "@/app/_components/ui/input";
 import { ScrollArea } from "@/app/_components/ui/scroll-area";
 import { Textarea } from "@/app/_components/ui/textarea";
-import { RadioGroup, RadioGroupItem } from "@/app/_components/ui/radio-group";
 import { Sparkles } from "lucide-react";
-import { auth } from "../_lib/auth";
+import { updateUser } from "../_lib/actions";
+import SubmitButton from "./SubmitButton";
+import { useActionState, useLayoutEffect } from "react";
+import { useToast } from "../_hooks/use-toast";
 
 const formSchema = z.object({
   // firstName: z.string().min(2, {
@@ -33,30 +32,40 @@ const formSchema = z.object({
   // }),
 });
 
-function ProfileForm({ user }) {
-  const name = user.name.split(" ").at(0);
-  const surname = user.name.split(" ").at(1);
+function ProfileForm({ userData }) {
+  const { toast } = useToast();
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    // resolver: zodResolver(formSchema),
     defaultValues: {
-      name: name,
-      surname: surname,
-      email: user.email,
-      phone: "",
-      address: "",
-      postCode: "",
-      city: "",
+      name: userData.name,
+      surname: userData.surname,
+      email: userData.email,
+      phone: userData.phone || "",
+      address: userData.address || "",
+      postCode: userData.postCode || "",
+      city: userData.city || "",
+      experience: userData.experience || "",
+      skills: userData.skills || "",
+      education: userData.education || "",
+      achievements: userData.achievements || "",
     },
   });
-  function onSubmit(values) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-  }
+  const initialState = {
+    message: "",
+  };
+
+  const [state, formAction, pending] = useActionState(updateUser, initialState);
+  useLayoutEffect(() => {
+    if (state.message)
+      toast({
+        title: state?.message,
+      });
+  }, [state]);
   return (
     <div className="w-full">
+      <p>{state?.message}</p>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 px-1">
+        <form action={formAction} className="space-y-3 px-1">
           <ScrollArea className="h-[65vh] min-h-[350px] lg:h-[500px] w-full rounded-md border p-2 sm:p-4 top-0 mb-10">
             <div className="mb-14">
               <h3
@@ -273,9 +282,17 @@ function ProfileForm({ user }) {
             </div>
           </ScrollArea>
           <div className="text-center">
-            <Button type="submit" variant="secondary" size="full">
+            {/* <Button
+              type="submit"
+              variant="secondary"
+              size="full"
+              disabled={pending && true}
+            >
               Update
-            </Button>
+            </Button> */}
+            <SubmitButton pendingLabel="Updating..." pending={pending}>
+              Update
+            </SubmitButton>
           </div>
         </form>
       </Form>

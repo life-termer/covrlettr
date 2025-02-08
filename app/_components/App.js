@@ -8,7 +8,7 @@ import MainForm from "../_components/MainForm";
 import CoverLetter from "./CoverLetter";
 import { Button } from "./ui/button";
 import { UserRoundCog } from "lucide-react";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useLayoutEffect, useState } from "react";
 import { promptString } from "../_lib/prompt";
 import { generateResponse } from "../_lib/openAi";
 import Spinner from "./Spinner";
@@ -27,41 +27,28 @@ const formSchema = z.object({
   // }),
 });
 
-function App() {
-  // const form = useForm({
-  //   // resolver: zodResolver(formSchema),
-  //   defaultValues: {
-  //     name: "",
-  //     surname: "",
-  //     email: "",
-  //     phone: "",
-  //     address: "",
-  //     postCode: "",
-  //     city: "",
-  //     position: "",
-  //     company: "",
-  //     website: "",
-  //     description: "",
-  //     recipientName: "",
-  //     recipientAddress: "",
-  //     recipientPostCode: "",
-  //     recipientCity: "",
-  //     experience: "",
-  //     skills: "",
-  //     education: "",
-  //     achievements: "",
-  //     length: "300",
-  //     tone: "formal and professional",
-  //   },
-  // });
-  const { form } = useMainContext();
+function App({ userData }) {
+  const {
+    response,
+    setResponse,
+    fontFamily,
+    setFontFamily,
+    fontSize,
+    setFontSize,
+    lineHeight,
+    setLineHeight,
+    mainColor,
+    setMainColor,
+    form,
+    editedResponse,
+    setEditedResponse,
+    template,
+    setTemplate,
+  } = useMainContext();
   const watchFields = form.watch();
   const { toast } = useToast();
 
-  const { response, setResponse } = useMainContext();
-  const ddd = useMainContext();
   const [isLoading, setIsLoading] = useState(false);
-  const { setEditedResponse } = useMainContext();
 
   const handleReset = () => {
     form.reset();
@@ -80,12 +67,57 @@ function App() {
       description: errors,
     });
   }
+  const handleFill = () => {
+    for (const [k, v] of Object.entries(userData)) {
+      form.setValue(k, v);
+    }
+  };
+  const storage = [
+    { form: form.getValues() },
+    { response: response },
+    { editedResponse: editedResponse },
+    { fontFamily: fontFamily },
+    { fontSize: fontSize },
+    { lineHeight: lineHeight },
+    { mainColor: mainColor },
+    { template: template },
+  ];
+  useEffect(() => {
+    if (response) {
+      console.log("setItem");
+      localStorage.setItem("storage", JSON.stringify(storage));
+    }
+  }, [
+    response,
+    editedResponse,
+    fontFamily,
+    fontSize,
+    lineHeight,
+    mainColor,
+    watchFields,
+    template,
+  ]);
+  useLayoutEffect(() => {
+    const localData = JSON.parse(localStorage.getItem("storage"));
+    if (localData) {
+      for (const [k, v] of Object.entries(localData[0].form)) {
+        form.setValue(k, v);
+      }
+      setResponse(localData[1].response);
+      setEditedResponse(localData[2].editedResponse);
+      setFontFamily(localData[3].fontFamily);
+      setFontSize(localData[4].fontSize);
+      setLineHeight(localData[5].lineHeight);
+      setMainColor(localData[6].mainColor);
+      setTemplate(localData[7].template);
+    }
+  }, []);
   return (
     <div className="flex flex-wrap lg:flex-nowrap py-5 px-2 lg:px-0 gap-y-12">
       <div className="w-full lg:w-1/3 flex-auto px-0 sm:px-3">
         <div className="flex gap-3 px-1 mb-4">
           <div className="w-1/2 flex-auto">
-            <Button variant="secondary" size="full" disabled>
+            <Button variant="secondary" size="full" onClick={handleFill}>
               Fill from <UserRoundCog />
             </Button>
           </div>
