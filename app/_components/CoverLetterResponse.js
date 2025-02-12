@@ -32,7 +32,7 @@ function CoverLetterResponse({ name, surname, recipientName, response }) {
         onBlur={onBlur}
         contentEditable
         suppressContentEditableWarning={true}
-        className="relative p-2 focus-visible:outline-2 focus-visible:outline-secondary-500"
+        className="relative focus-visible:outline-2 focus-visible:outline-secondary-500"
       >
         <span className="block">Dear, {recipientName}</span>
         <span className="block">
@@ -49,7 +49,7 @@ function CoverLetterResponse({ name, surname, recipientName, response }) {
           {name && <span className="inline-block">{name}&nbsp;</span>}
           {surname && <span className="inline-block">{surname}</span>}
         </span>
-        {/* <Pencil className="absolute top-1 right-1 text-secondary-700" /> */}
+        <Pencil className="absolute top-0 right-[-16px] w-4 text-secondary-700 pencil" />
       </div>
     </>
   );

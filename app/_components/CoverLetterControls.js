@@ -1,5 +1,3 @@
-import { LayoutPanelTop } from "lucide-react";
-import { Button } from "./ui/button";
 import FontsButton from "./FontsButton";
 import FontSizeButton from "./FontSizeButton";
 import LineHeightButton from "./LineHeightButton";

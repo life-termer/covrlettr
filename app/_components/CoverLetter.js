@@ -1,10 +1,6 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import CoverLetterControls from "./CoverLetterControls";
-import { Margin, usePDF } from "react-to-pdf";
-import Spinner from "./Spinner";
-import SpinnerComment from "./SpinnerComment";
-import { useMainContext } from "../_lib/mainContext";
-import BlankTemplate from "./BlankTemplate";
+import TemplateLayout from "./templates/TemplateLayout";
 
 function CoverLetter({ watchFields, response, isLoading }) {
   const { name, surname, position } = watchFields;
@@ -17,7 +13,7 @@ function CoverLetter({ watchFields, response, isLoading }) {
     <div className="h-full">
       <CoverLetterControls targetRef={targetRef} fileName={fileName} />
 
-      <BlankTemplate
+      <TemplateLayout
         watchFields={watchFields}
         targetRef={targetRef}
         response={response}

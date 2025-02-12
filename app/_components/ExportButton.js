@@ -14,7 +14,7 @@ import { useMainContext } from "../_lib/mainContext";
 import { exportPlainText, toPDF2 } from "../_lib/utils";
 
 export default function ExportButton({ targetRef, fileName }) {
-  const { fontSize, lineHeight } = useMainContext();
+  const { fontFamily, fontSize, lineHeight } = useMainContext();
 
   return (
     <DropdownMenu>
@@ -30,7 +30,7 @@ export default function ExportButton({ targetRef, fileName }) {
         <DropdownMenuItem
           className="flex gap-2 items-center"
           onClick={() => {
-            toPDF2(targetRef, fileName, fontSize, lineHeight);
+            toPDF2(targetRef, fileName, fontFamily, fontSize, lineHeight);
           }}
         >
           <BsFiletypePdf /> PDF
