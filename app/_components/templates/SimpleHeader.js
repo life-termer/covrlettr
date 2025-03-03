@@ -8,14 +8,14 @@ function SimpleHeader({ watchFields }) {
   const { mainColor } = useMainContext();
 
   return (
-    <div className="bg-slate-50 pt-5 px-5">
+    <div className="bg-slate-50 pt-10 px-5">
       <p
-        className="text-2xl mb-4 custom-size-xl"
+        className="text-4xl mb-8 custom-size-xl"
         style={{ color: mainColor, fontWeight: "bold" }}
       >
         {name} {surname}
       </p>
-      <div className="flex gap-3 text-sm pb-4 custom-size-sm">
+      <div className="flex gap-3 text-sm pb-8 custom-size-sm">
         <div className="flex gap-1 items-center">
           <div className="w-4 h-4" style={{ color: mainColor }}>
             <svg

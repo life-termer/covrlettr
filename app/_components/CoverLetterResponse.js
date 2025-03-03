@@ -7,7 +7,7 @@ function CoverLetterResponse({ name, surname, recipientName, response }) {
   const ref = useRef();
   const responseRef = useRef();
   const { editedResponse, setEditedResponse } = useMainContext();
-  const [tempHtml, setTempHtml] = useState();
+  const [tempHtml, setTempHtml] = useState(response.data);
   const onBlur = () => {
     setEditedResponse(responseRef.current.innerHTML);
   };
@@ -22,7 +22,9 @@ function CoverLetterResponse({ name, surname, recipientName, response }) {
     return text.replace(/[&<>"']/g, (char) => map[char]);
   }
   useEffect(() => {
-    editedResponse ? setTempHtml(editedResponse) : setTempHtml(response.string);
+    console.log(response);
+    console.log(editedResponse);
+    editedResponse ? setTempHtml(editedResponse) : setTempHtml(response.data);
   }, [response]);
 
   return (
@@ -38,9 +40,7 @@ function CoverLetterResponse({ name, surname, recipientName, response }) {
         <span className="block">
           <br />
         </span>
-        <div ref={responseRef}>
-          {false ? ReactHtmlParser(editedResponse) : ReactHtmlParser(tempHtml)}
-        </div>
+        <div ref={responseRef}>{ReactHtmlParser(tempHtml)}</div>
         <span className="block">
           <br />
         </span>

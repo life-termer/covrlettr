@@ -19,17 +19,22 @@ import {
   PopoverTrigger,
 } from "@/app/_components/ui/popover";
 import { useMainContext } from "../_lib/mainContext";
+import blankTemplate from "@/public/templates/blankTemplate.jpg";
+import simpleTemplate from "@/public/templates/simpleTemplate.jpg";
+import Image from "next/image";
 
 const templates = [
   {
     index: 0,
     value: "blank",
     label: "Blank",
+    img: blankTemplate,
   },
   {
     index: 1,
     value: "simple",
     label: "Simple",
+    img: simpleTemplate,
   },
   {
     index: 2,
@@ -80,14 +85,27 @@ export default function TemplatesButton() {
                     }`}
                   >
                     <CardContent
-                      className={`flex aspect-square items-center justify-center p-6 cursor-pointer ${
-                        tmpl.disabled ? "opacity-50 pointer-events-none" : ""
+                      className={`flex aspect-[1/1.4] items-center justify-center p-2 cursor-pointer bg-transparent ${
+                        tmpl.disabled ? "opacity-80 pointer-events-none" : ""
                       }`}
                       onClick={() => setTemplate(tmpl.value)}
                     >
-                      {tmpl.disabled && (
-                        <span className="text-sm">Coming Soon</span>
-                      )}
+                      <div className="relative z-10 w-full h-full flex items-center justify-center shadow-md">
+                        {tmpl.disabled && (
+                          <span className="text-sm relative z-20">
+                            Coming Soon
+                          </span>
+                        )}
+                        {tmpl.img && (
+                          <Image
+                            src={tmpl.img}
+                            fill
+                            className="object-contain opacity-80 z-10 "
+                            alt="Blank Template"
+                            quality={80}
+                          />
+                        )}
+                      </div>
                     </CardContent>
                   </Card>
                   <span

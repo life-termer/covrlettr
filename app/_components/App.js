@@ -83,6 +83,22 @@ function App({ userData }) {
     { template: template },
   ];
   useEffect(() => {
+    const localData = JSON.parse(localStorage.getItem("storage"));
+    if (localData) {
+      // for (const [k, v] of Object.entries(localData[0].form)) {
+      //   form.setValue(k, v);
+      //   console.log(k, v);
+      // }
+      setResponse(localData[1].response);
+      setEditedResponse(localData[2].editedResponse);
+      setFontFamily(localData[3].fontFamily);
+      setFontSize(localData[4].fontSize);
+      setLineHeight(localData[5].lineHeight);
+      setMainColor(localData[6].mainColor);
+      setTemplate(localData[7].template);
+    }
+  }, []);
+  useEffect(() => {
     if (response) {
       console.log("setItem");
       localStorage.setItem("storage", JSON.stringify(storage));
@@ -97,21 +113,6 @@ function App({ userData }) {
     watchFields,
     template,
   ]);
-  useLayoutEffect(() => {
-    const localData = JSON.parse(localStorage.getItem("storage"));
-    if (localData) {
-      for (const [k, v] of Object.entries(localData[0].form)) {
-        form.setValue(k, v);
-      }
-      setResponse(localData[1].response);
-      setEditedResponse(localData[2].editedResponse);
-      setFontFamily(localData[3].fontFamily);
-      setFontSize(localData[4].fontSize);
-      setLineHeight(localData[5].lineHeight);
-      setMainColor(localData[6].mainColor);
-      setTemplate(localData[7].template);
-    }
-  }, []);
   return (
     <div className="flex flex-wrap lg:flex-nowrap py-5 px-2 lg:px-0 gap-y-12">
       <div className="w-full lg:w-1/3 flex-auto px-0 sm:px-3">

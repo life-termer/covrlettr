@@ -17,33 +17,50 @@ export async function generateResponse(values) {
   // // 3) Building prompt
   const prompt = promptString(values);
 
-  //   const completion = await openai.chat.completions.create({
-  //     model: "gpt-4o-mini",
-  //     messages: [
-  //       {
-  //         role: "developer",
-  //         content:
-  //           "You are an AI specialized in generating professional and personalized cover letters. Your goal is to craft a compelling letter based on the provided job details while maintaining a human-like, engaging, and industry-appropriate tone. Exclude header, salutation and signature.Format the output strictly in HTML. Add custom inline styles, only weight, spacing and bullet point if needed.",
-  //       },
-  //       {
-  //         role: "user",
-  //         content: prompt,
-  //       },
-  //     ],
-  //     store: true,
-  //     max_tokens: 500,
-  //     temperature: 0.7,
-  //   });
-  // // 5) Error handling
-  // // if (error) throw new Error("Can not generate response");
-  // console.log(completion.choices[0].message);
+  const completion = await openai.chat.completions.create({
+    model: "gpt-4o-mini",
+    messages: [
+      {
+        role: "developer",
+        content:
+          "You are an AI specialized in generating professional and personalized cover letters. Your goal is to craft a compelling letter based on the provided job details while maintaining a human-like, engaging, and industry-appropriate tone. Exclude header, salutation and signature.Format the output strictly in HTML. Use only span tag with class block or tags ul and li for lists. Do not add any inline styles",
+      },
+      {
+        role: "user",
+        content: prompt,
+      },
+    ],
+    store: true,
+    max_tokens: 500,
+    temperature: 0.7,
+  });
+  // 5) Error handling
+  // if (error) throw new Error("Can not generate response");
+  console.log(completion.choices[0].message);
 
-  //   const data = completion.choices[0].message.content;
-  const string =
-    '<p style="font-weight: bold; margin-bottom: 10px;">I am excited to apply for the Front End Developer position at Google. With a solid foundation in React.js, JavaScript, HTML, and CSS, I am confident in my ability to contribute effectively to your innovative team.</p> <p style="margin-bottom: 10px;">Throughout my career, I have consistently leveraged modern frameworks to create dynamic, user-friendly applications. My experience includes:</p><li style="margin-bottom: 5px;">Developing responsive web applications that enhance user experience and engagement.</li><li style="margin-bottom: 5px;">Collaborating with cross-functional teams to deliver projects on time and within scope.</li><li style="margin-bottom: 5px;">Implementing best practices for code quality and performance optimization.</li></ul><p style="margin-bottom: 10px;">I am particularly drawn to Google’s commitment to innovation and user-centric design. I believe my proactive approach to problem-solving and passion for front-end development align perfectly with your team’s goals. I am eager to bring my expertise in crafting seamless user experiences to Google, where I can contribute to projects that impact millions of users globally.</p><p style="margin-bottom: 10px;">I would love the opportunity to discuss how my skills and experiences align with the needs of your team. Thank you for considering my application; I look forward to the possibility of an interview.</p> ';
+  const data = completion.choices[0].message.content;
+  const data2 =
+    '<div style="font-family: Arial, sans-serif; line-height: 1.6;">\n' +
+    "\n" +
+    `<p style="font-weight: bold; margin-bottom: 10px;">I am thrilled to apply for the Front End Developer position at Google, where innovation and user-centric design come together to create transformative digital experiences. With over three years of experience in web development, specializing in React.js and modern frameworks, I am eager to contribute to your mission of organizing the world's information and making it universally accessible and useful.</p>\n` +
+    "\n" +
+    '<p style="margin-bottom: 10px;">In my previous roles, I have honed my skills in:</p>\n' +
+    '<ul style="margin-bottom: 10px; padding-left: 20px;">\n' +
+    '    <li style="margin-bottom: 5px;">Developing responsive web applications using React.js, JavaScript, HTML, and CSS.</li>\n' +
+    '    <li style="margin-bottom: 5px;">Creating visually appealing interfaces in collaboration with designers, utilizing tools like MUI and Figma.</li>\n' +
+    '    <li style="margin-bottom: 5px;">Implementing high-quality frontend solutions with a strong focus on enhancing user interactions and API usability.</li>\n' +
+    "</ul>\n" +
+    "\n" +
+    `<p style="margin-bottom: 10px;">My strong problem-solving skills have enabled me to tackle complex challenges and deliver solutions that meet user needs effectively. As I dive deeper into the evolving Web3 landscape, I have gained experience with tools such as Viem and Wagmi, as well as a solid understanding of Ethereum Improvement Proposals (EIPs). This knowledge allows me to contribute to innovative projects that align with Google's commitment to pushing the boundaries of technology.</p>\n` +
+    "\n" +
+    `<p style="margin-bottom: 10px;">I am particularly drawn to Google's dedication to open-source contributions and collaboration. My previous experiences include maintaining repositories and contributing to community-driven projects, which I believe aligns perfectly with your values. I am excited about the opportunity to work alongside talented engineers and contribute to groundbreaking projects that impact millions of users globally.</p>\n` +
+    "\n" +
+    '<p style="margin-bottom: 10px;">I would love the chance to discuss how my experience and enthusiasm for frontend development can contribute to Google’s vision. I am looking forward to the opportunity to explore this further in an interview.</p>\n' +
+    "\n" +
+    "</div>";
 
   //   const data = string.split("\n");
   //   console.log(completion.choices[0].message.content);
 
-  return { string };
+  return { data };
 }

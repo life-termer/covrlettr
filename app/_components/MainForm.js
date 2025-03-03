@@ -469,7 +469,7 @@ function MainForm({ form, onSubmit, onError, isLoading }) {
                           </span>
                           <FormItem className="flex items-center space-x-3 space-y-0 relative">
                             <FormControl>
-                              <RadioGroupItem value="persuasive and results-Driven" />
+                              <RadioGroupItem value="persuasive and results-driven" />
                             </FormControl>
                             <FormLabel className="font-normal">
                               Persuasive & Results-Driven

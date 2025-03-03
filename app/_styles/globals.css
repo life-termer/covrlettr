@@ -92,6 +92,16 @@ body {
   }
 }
 @layer components {
+  [contenteditable="true"] {
+    ol,
+    ul,
+    menu {
+      list-style: disc;
+      margin: 0;
+      padding: 0 1rem;
+    }
+  }
+
   .spinner {
     margin: 3.2rem auto 1.6rem;
     width: 60px;

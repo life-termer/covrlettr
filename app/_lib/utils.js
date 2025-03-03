@@ -51,6 +51,7 @@ export function toPDF2(target, fileName, fontFamily, fontSize, lineHeight) {
   html.style.lineHeight = lineHeights[lineHeight];
   html.innerHTML = target.current.innerHTML;
   const svgs = html.querySelectorAll("svg");
+  const unLists = html.querySelectorAll("ul");
   const lists = html.querySelectorAll("li");
   const sizeXl = html.querySelectorAll(".custom-size-xl");
   const sizeSm = html.querySelectorAll(".custom-size-sm");
@@ -59,12 +60,16 @@ export function toPDF2(target, fileName, fontFamily, fontSize, lineHeight) {
     s.remove();
   });
   sizeXl.forEach((size) => {
-    size.style.fontSize = "20px";
-    size.style.lineHeight = "20px";
+    size.style.fontSize = "28px";
+    size.style.lineHeight = "28px";
   });
   sizeSm.forEach((size) => {
-    size.style.fontSize = "10px";
-    size.style.lineHeight = "10px";
+    size.style.fontSize = "12px";
+    size.style.lineHeight = "12px";
+  });
+  unLists.forEach((ul) => {
+    ul.style.padding = "0";
+    ul.style.margin = "0";
   });
   lists.forEach((l) => {
     let html = l.innerHTML;
