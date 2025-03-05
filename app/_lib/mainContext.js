@@ -3,34 +3,30 @@
 import { createContext, useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 
-const localData = JSON.parse(localStorage.getItem("storage"));
-
 const MainContext = createContext();
-const defaultFormValues = localData
-  ? localData[0].form
-  : {
-      name: "",
-      surname: "",
-      email: "",
-      phone: "",
-      address: "",
-      postCode: "",
-      city: "",
-      position: "",
-      company: "",
-      website: "",
-      description: "",
-      recipientName: "",
-      recipientAddress: "",
-      recipientPostCode: "",
-      recipientCity: "",
-      experience: "",
-      skills: "",
-      education: "",
-      achievements: "",
-      length: "300",
-      tone: "formal and professional",
-    };
+const defaultFormValues = {
+  name: "",
+  surname: "",
+  email: "",
+  phone: "",
+  address: "",
+  postCode: "",
+  city: "",
+  position: "",
+  company: "",
+  website: "",
+  description: "",
+  recipientName: "",
+  recipientAddress: "",
+  recipientPostCode: "",
+  recipientCity: "",
+  experience: "",
+  skills: "",
+  education: "",
+  achievements: "",
+  length: "300",
+  tone: "formal and professional",
+};
 console.log(defaultFormValues);
 const initialStates = {
   response: undefined,

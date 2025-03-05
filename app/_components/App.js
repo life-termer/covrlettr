@@ -68,8 +68,9 @@ function App({ userData }) {
     });
   }
   const handleFill = () => {
+    console.log(userData);
     for (const [k, v] of Object.entries(userData)) {
-      form.setValue(k, v);
+      if (v) form.setValue(k, v);
     }
   };
   const storage = [
@@ -85,10 +86,11 @@ function App({ userData }) {
   useEffect(() => {
     const localData = JSON.parse(localStorage.getItem("storage"));
     if (localData) {
-      // for (const [k, v] of Object.entries(localData[0].form)) {
-      //   form.setValue(k, v);
-      //   console.log(k, v);
-      // }
+      for (const [k, v] of Object.entries(localData[0].form)) {
+        if (v && k != "length" && k != "tone") {
+          form.setValue(k, v);
+        }
+      }
       setResponse(localData[1].response);
       setEditedResponse(localData[2].editedResponse);
       setFontFamily(localData[3].fontFamily);

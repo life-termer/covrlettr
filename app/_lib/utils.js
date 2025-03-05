@@ -10,8 +10,8 @@ const fontFamilies = {
   arial: ["Arial", "sans-serif"],
   times: ["Times New Roman", "serif"],
   georgia: ["Georgia", "serif"],
-  notoSans: "font-[family-name:var(--font-noto-sans)]",
-  poppins: "Poppins",
+  notoSans: ["Noto Sans", "sans-serif"],
+  poppins: ["Poppins", "sans-serif"],
   calibri: ["Calibri", "sans-serif"],
 };
 const fontSizes = {
@@ -29,6 +29,24 @@ const lineHeights = {
   xl: "1.75",
 };
 
+function addFont(doc, font) {
+  switch (font) {
+    case "poppins":
+      doc.addFont("/Fonts/Poppins.ttf", "Poppins", "normal");
+      break;
+    case "calibri":
+      doc.addFont("/Fonts/Calibri.ttf", "Calibri", "normal");
+      break;
+    case "notoSans":
+      doc.addFont("/Fonts/NotoSans.ttf", "Noto Sans", "normal");
+      break;
+    case "georgia":
+      doc.addFont("/Fonts/Georgia.ttf", "Georgia", "normal");
+      break;
+    default:
+      break;
+  }
+}
 const icEnvelope =
   '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/></svg>';
 const icPhone =
@@ -47,6 +65,7 @@ export function toPDF2(target, fileName, fontFamily, fontSize, lineHeight) {
   html.style.color = "#000";
   // html.style.padding = "20px";
   html.style.fontFamily = fontFamilies[fontFamily];
+  // html.style.fontFamily = "Poppins";
   html.style.fontSize = fontSizes[fontSize];
   html.style.lineHeight = lineHeights[lineHeight];
   html.innerHTML = target.current.innerHTML;
@@ -77,11 +96,7 @@ export function toPDF2(target, fileName, fontFamily, fontSize, lineHeight) {
     l.innerHTML = `&#x2022;  ` + html;
   });
   console.log(html);
-  doc.addFont(
-    "https://fonts.gstatic.com/s/lobster/v30/neILzCirqoswsqX9_oWsMqEzSJQ.ttf",
-    "Lobster",
-    "normal"
-  );
+  addFont(doc, fontFamily);
 
   if (!target.current) return;
 

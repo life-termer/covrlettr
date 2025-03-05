@@ -41,7 +41,7 @@ import {
 const items = [
   {
     title: "Create New",
-    url: "/cl",
+    url: "/app",
     icon: NotebookPen,
   },
   {

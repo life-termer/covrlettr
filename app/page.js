@@ -40,7 +40,7 @@ export default function Home() {
                 on landing your dream job.
               </p>
               <Button size="xl" asChild>
-                <Link href="/cl">Get Started</Link>
+                <Link href="/app">Get Started</Link>
               </Button>
             </div>
           </Container>
@@ -86,7 +86,7 @@ export default function Home() {
             </div>
             <div className="text-center mt-16" disabled>
               <Button size="xl" asChild>
-                <Link href="/cl">Start Now</Link>
+                <Link href="/app">Start Now</Link>
               </Button>
             </div>
           </Container>
