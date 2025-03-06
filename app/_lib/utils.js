@@ -42,6 +42,7 @@ function addFont(doc, font) {
       break;
     case "georgia":
       doc.addFont("/Fonts/Georgia.ttf", "Georgia", "normal");
+      doc.addFont("/Fonts/GeorgiaBold.ttf", "Georgia", "bold");
       break;
     default:
       break;
