@@ -19,23 +19,45 @@ import { updateUser } from "../_lib/actions";
 import SubmitButton from "./SubmitButton";
 import { useActionState, useLayoutEffect } from "react";
 import { useToast } from "../_hooks/use-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const formSchema = z.object({
-  // firstName: z.string().min(2, {
-  //   message: "First name must be at least 2 characters.",
-  // }),
-  // secondName: z.string().min(2, {
-  //   message: "Second name must be at least 2 characters.",
-  // }),
-  // email: z.string().email({
-  //   message: "Second name must be at least 2 characters.",
-  // }),
+  name: z.string().max(50, {
+    message: "Name must be no longer than 50 characters.",
+  }),
+  surname: z.string().max(50, {
+    message: "Surname must be no longer than 50 characters.",
+  }),
+  phone: z.string().max(50, {
+    message: "Phone must be no longer than 50 characters.",
+  }),
+  address: z.string().max(50, {
+    message: "Address must be no longer than 50 characters.",
+  }),
+  postCode: z.string().max(50, {
+    message: "Post Code must be no longer than 50 characters.",
+  }),
+  city: z.string().max(50, {
+    message: "city must be no longer than 50 characters.",
+  }),
+  experience: z.string().max(500, {
+    message: "Experience must be no longer than 500 characters.",
+  }),
+  skills: z.string().max(250, {
+    message: "Skills must be no longer than 250 characters.",
+  }),
+  education: z.string().max(50, {
+    message: "Education must be no longer than 50 characters.",
+  }),
+  achievements: z.string().max(500, {
+    message: "Achievements must be no longer than 500 characters.",
+  }),
 });
 
 function ProfileForm({ userData }) {
   const { toast } = useToast();
   const form = useForm({
-    // resolver: zodResolver(formSchema),
+    resolver: zodResolver(formSchema),
     defaultValues: {
       name: userData.name,
       surname: userData.surname,
@@ -55,15 +77,21 @@ function ProfileForm({ userData }) {
   };
 
   const [state, formAction, pending] = useActionState(updateUser, initialState);
+
   useLayoutEffect(() => {
     if (state.message)
       toast({
         title: state?.message,
       });
+    if (state.errors) {
+      toast({
+        title: "Something went wrong.",
+        description: "Please check the form for errors and try again.",
+      });
+    }
   }, [state]);
   return (
     <div className="w-full">
-      <p>{state?.message}</p>
       <Form {...form}>
         <form action={formAction} className="space-y-3 px-1">
           <ScrollArea className="h-[65vh] min-h-[350px] lg:h-[500px] w-full rounded-md border p-2 sm:p-4 top-0 mb-10">
@@ -80,11 +108,19 @@ function ProfileForm({ userData }) {
                   name="name"
                   render={({ field }) => (
                     <FormItem className="w-1/2 px-1">
-                      <FormLabel>Name</FormLabel>
+                      <FormLabel
+                        className={state.errors?.name && "text-destructive"}
+                      >
+                        Name
+                      </FormLabel>
                       <FormControl>
-                        <Input placeholder="John" {...field} />
+                        <Input className="" placeholder="John" {...field} />
                       </FormControl>
-                      <FormMessage />
+                      {state.errors?.name && (
+                        <p className="text-[0.8rem] font-medium text-destructive">
+                          {state.errors.name}
+                        </p>
+                      )}
                     </FormItem>
                   )}
                 />
@@ -93,11 +129,19 @@ function ProfileForm({ userData }) {
                   name="surname"
                   render={({ field }) => (
                     <FormItem className="w-1/2 px-1">
-                      <FormLabel>Surname</FormLabel>
+                      <FormLabel
+                        className={state.errors?.surname && "text-destructive"}
+                      >
+                        Surname
+                      </FormLabel>
                       <FormControl>
                         <Input placeholder="Doe" {...field} />
                       </FormControl>
-                      <FormMessage />
+                      {state.errors?.surname && (
+                        <p className="text-[0.8rem] font-medium text-destructive">
+                          {state.errors.surname}
+                        </p>
+                      )}
                     </FormItem>
                   )}
                 />
@@ -116,7 +160,6 @@ function ProfileForm({ userData }) {
                           disabled
                         />
                       </FormControl>
-                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -125,11 +168,19 @@ function ProfileForm({ userData }) {
                   name="phone"
                   render={({ field }) => (
                     <FormItem className="w-1/2 px-1">
-                      <FormLabel>Phone number</FormLabel>
+                      <FormLabel
+                        className={state.errors?.phone && "text-destructive"}
+                      >
+                        Phone number
+                      </FormLabel>
                       <FormControl>
                         <Input placeholder="+1 234 567 8901" {...field} />
                       </FormControl>
-                      <FormMessage />
+                      {state.errors?.phone && (
+                        <p className="text-[0.8rem] font-medium text-destructive">
+                          {state.errors.phone}
+                        </p>
+                      )}
                     </FormItem>
                   )}
                 />
@@ -141,11 +192,19 @@ function ProfileForm({ userData }) {
                   name="address"
                   render={({ field }) => (
                     <FormItem className="w-full px-1">
-                      <FormLabel>Address</FormLabel>
+                      <FormLabel
+                        className={state.errors?.address && "text-destructive"}
+                      >
+                        Address
+                      </FormLabel>
                       <FormControl>
                         <Input placeholder="123 Main St, Apt 4B" {...field} />
                       </FormControl>
-                      <FormMessage />
+                      {state.errors?.address && (
+                        <p className="text-[0.8rem] font-medium text-destructive">
+                          {state.errors.address}
+                        </p>
+                      )}
                     </FormItem>
                   )}
                 />
@@ -156,11 +215,19 @@ function ProfileForm({ userData }) {
                   name="postCode"
                   render={({ field }) => (
                     <FormItem className="w-1/2 px-1">
-                      <FormLabel>Post Code</FormLabel>
+                      <FormLabel
+                        className={state.errors?.postCode && "text-destructive"}
+                      >
+                        Post Code
+                      </FormLabel>
                       <FormControl>
                         <Input placeholder="1000" {...field} />
                       </FormControl>
-                      <FormMessage />
+                      {state.errors?.postCode && (
+                        <p className="text-[0.8rem] font-medium text-destructive">
+                          {state.errors.postCode}
+                        </p>
+                      )}
                     </FormItem>
                   )}
                 />
@@ -169,11 +236,19 @@ function ProfileForm({ userData }) {
                   name="city"
                   render={({ field }) => (
                     <FormItem className="w-1/2 px-1">
-                      <FormLabel>City</FormLabel>
+                      <FormLabel
+                        className={state.errors?.city && "text-destructive"}
+                      >
+                        City
+                      </FormLabel>
                       <FormControl>
                         <Input placeholder="Ljubljana" {...field} />
                       </FormControl>
-                      <FormMessage />
+                      {state.errors?.city && (
+                        <p className="text-[0.8rem] font-medium text-destructive">
+                          {state.errors.city}
+                        </p>
+                      )}
                     </FormItem>
                   )}
                 />
@@ -193,7 +268,11 @@ function ProfileForm({ userData }) {
                   name="experience"
                   render={({ field }) => (
                     <FormItem className="w-full px-1">
-                      <FormLabel>
+                      <FormLabel
+                        className={
+                          state.errors?.experience && "text-destructive"
+                        }
+                      >
                         Relevant experience
                         <Sparkles className="w-3 ms-1 -mt-3 inline-block" />
                       </FormLabel>
@@ -205,7 +284,11 @@ function ProfileForm({ userData }) {
                           {...field}
                         />
                       </FormControl>
-                      <FormMessage />
+                      {state.errors?.experience && (
+                        <p className="text-[0.8rem] font-medium text-destructive">
+                          {state.errors.experience}
+                        </p>
+                      )}
                     </FormItem>
                   )}
                 />
@@ -217,7 +300,9 @@ function ProfileForm({ userData }) {
                   name="skills"
                   render={({ field }) => (
                     <FormItem className="w-full px-1">
-                      <FormLabel>
+                      <FormLabel
+                        className={state.errors?.skills && "text-destructive"}
+                      >
                         Skills
                         <Sparkles className="w-3 ms-1 -mt-3 inline-block" />
                       </FormLabel>
@@ -227,10 +312,11 @@ function ProfileForm({ userData }) {
                           {...field}
                         />
                       </FormControl>
-                      <FormDescription>
-                        This is your public display name.
-                      </FormDescription>
-                      <FormMessage />
+                      {state.errors?.skills && (
+                        <p className="text-[0.8rem] font-medium text-destructive">
+                          {state.errors.skills}
+                        </p>
+                      )}
                     </FormItem>
                   )}
                 />
@@ -241,7 +327,11 @@ function ProfileForm({ userData }) {
                   name="education"
                   render={({ field }) => (
                     <FormItem className="w-full px-1">
-                      <FormLabel>
+                      <FormLabel
+                        className={
+                          state.errors?.education && "text-destructive"
+                        }
+                      >
                         Education
                         <Sparkles className="w-3 ms-1 -mt-3 inline-block" />
                       </FormLabel>
@@ -251,7 +341,11 @@ function ProfileForm({ userData }) {
                           {...field}
                         />
                       </FormControl>
-                      <FormMessage />
+                      {state.errors?.education && (
+                        <p className="text-[0.8rem] font-medium text-destructive">
+                          {state.errors.education}
+                        </p>
+                      )}
                     </FormItem>
                   )}
                 />
@@ -262,7 +356,11 @@ function ProfileForm({ userData }) {
                   name="achievements"
                   render={({ field }) => (
                     <FormItem className="w-full px-1">
-                      <FormLabel>
+                      <FormLabel
+                        className={
+                          state.errors?.achievements && "text-destructive"
+                        }
+                      >
                         Strengths or achievements
                         <Sparkles className="w-3 ms-1 -mt-3 inline-block" />
                       </FormLabel>
@@ -274,7 +372,11 @@ function ProfileForm({ userData }) {
                           {...field}
                         />
                       </FormControl>
-                      <FormMessage />
+                      {state.errors?.achievements && (
+                        <p className="text-[0.8rem] font-medium text-destructive">
+                          {state.errors.achievements}
+                        </p>
+                      )}
                     </FormItem>
                   )}
                 />
@@ -282,14 +384,6 @@ function ProfileForm({ userData }) {
             </div>
           </ScrollArea>
           <div className="text-center">
-            {/* <Button
-              type="submit"
-              variant="secondary"
-              size="full"
-              disabled={pending && true}
-            >
-              Update
-            </Button> */}
             <SubmitButton pendingLabel="Updating..." pending={pending}>
               Update
             </SubmitButton>

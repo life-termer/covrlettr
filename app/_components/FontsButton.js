@@ -82,9 +82,7 @@ export default function FontsButton() {
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search Fonts..." />
           <CommandList>
-            <CommandEmpty></CommandEmpty>
             <CommandGroup>
               {fonts.map((font) => (
                 <CommandItem

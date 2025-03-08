@@ -7,6 +7,9 @@ export const metadata = {
 };
 
 export default function Terms() {
+  const appName = "COVRLETTR";
+  const date = "08.03.2025";
+  const email = "dsurchin@gmail.com";
   return (
     <>
       <Header />
@@ -15,9 +18,9 @@ export default function Terms() {
           <h2 className="text-primary-700 text-3xl font-[family-name:var(--font-heading)] mb-4">
             Terms of Service
           </h2>
-          <p className="mb-3">Effective Date: [Insert Date]</p>
+          <p className="mb-3">Effective Date: {date}</p>
           <p className="mb-5">
-            Welcome to [App Name]! These Terms of Service ("Terms") govern your
+            Welcome to {appName}! These Terms of Service ("Terms") govern your
             access to and use of our application (the "App"), which uses
             artificial intelligence (AI) to assist in creating personalized
             cover letters based on user input. By using the App, you agree to
@@ -68,7 +71,7 @@ export default function Terms() {
           </h3>
           <ul className="mb-4">
             <li className="list-disc ms-5">
-              The App and its underlying technology are owned by [Company Name].
+              The App and its underlying technology are owned by {appName}.
             </li>
             <li className="list-disc ms-5">
               You retain ownership of the data and input you provide to the App.
@@ -134,8 +137,11 @@ export default function Terms() {
             10. Contact Us
           </h3>
           <p>
-            If you have questions about these Terms, contact us at [Contact
-            Email].
+            If you have questions about these Terms,{" "}
+            <a className="underline" href={`mailto:${email}`}>
+              contact us
+            </a>
+            .
           </p>
           <div id="privacy" className="mb-16"></div>
           <h2 className="text-primary-700 text-3xl font-[family-name:var(--font-heading)] mb-4">
@@ -143,10 +149,9 @@ export default function Terms() {
           </h2>
           <p className="mb-3">Effective Date: [Insert Date]</p>
           <p className="mb-5">
-            [App Name] ("we," "our," or "us") values your privacy. This Privacy
-            Policy explains how we collect, use, and protect your personal
-            information when you use our AI-powered cover letter creation app
-            (the "App").
+            {appName} values your privacy. This Privacy Policy explains how we
+            collect, use, and protect your personal information when you use our
+            AI-powered cover letter creation app (the "App").
           </p>
           <h3 className="text-primary-700 text-xl font-[family-name:var(--font-heading)] mb-3">
             1. Information We Collect
@@ -228,27 +233,24 @@ export default function Terms() {
             </li>
           </ul>
           <h3 className="text-primary-700 text-xl font-[family-name:var(--font-heading)] mb-3">
-            6. Your Rights
-          </h3>
-          <p className="mb-4">
-            Depending on your jurisdiction, you may have the right to:
-          </p>
-          <h3 className="text-primary-700 text-xl font-[family-name:var(--font-heading)] mb-3">
             7. Children’s Privacy
           </h3>
           <p className="mb-4">
             The App is not intended for children under 13. We do not knowingly
             collect personal information from children. If you believe a child
-            has provided us with information, contact us to request its
-            deletion.
+            has provided us with information,{" "}
+            <a className="underline" href={`mailto:${email}`}>
+              contact us
+            </a>
+            &nbsp;to request its deletion.
           </p>
           <h3 className="text-primary-700 text-xl font-[family-name:var(--font-heading)] mb-3">
             8. International Data Transfers
           </h3>
           <p className="mb-4">
-            If you are using the App outside of [Your Country/Region], your data
-            may be transferred to and processed in a different jurisdiction. By
-            using the App, you consent to such transfers.
+            If you are using the App outside of Europe Region, your data may be
+            transferred to and processed in a different jurisdiction. By using
+            the App, you consent to such transfers.
           </p>
           <h3 className="text-primary-700 text-xl font-[family-name:var(--font-heading)] mb-3">
             9. Changes to This Policy
@@ -262,8 +264,11 @@ export default function Terms() {
             10. Contact Us
           </h3>
           <p className="mb-4">
-            For questions or concerns about this Privacy Policy, contact us at
-            [Contact Email].
+            For questions or concerns about this Privacy Policy,{" "}
+            <a className="underline" href={`mailto:${email}`}>
+              contact us
+            </a>
+            .
           </p>
         </div>
       </Container>

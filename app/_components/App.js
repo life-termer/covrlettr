@@ -1,31 +1,14 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-
 import MainForm from "../_components/MainForm";
 import CoverLetter from "./CoverLetter";
 import { Button } from "./ui/button";
 import { UserRoundCog } from "lucide-react";
 import { Suspense, useEffect, useLayoutEffect, useState } from "react";
-import { promptString } from "../_lib/prompt";
 import { generateResponse } from "../_lib/openAi";
 import Spinner from "./Spinner";
 import { useToast } from "../_hooks/use-toast";
 import { useMainContext } from "../_lib/mainContext";
-
-const formSchema = z.object({
-  name: z.string().min(2, {
-    message: "First name must be at least 2 characters.",
-  }),
-  // secondName: z.string().min(2, {
-  //   message: "Second name must be at least 2 characters.",
-  // }),
-  // email: z.string().email({
-  //   message: "Second name must be at least 2 characters.",
-  // }),
-});
 
 function App({ userData }) {
   const {
@@ -53,26 +36,6 @@ function App({ userData }) {
   const handleReset = () => {
     form.reset();
   };
-  async function onSubmit(values) {
-    setEditedResponse(undefined);
-    setIsLoading(true);
-    const response = await generateResponse(values, setIsLoading);
-    setResponse(response);
-    setIsLoading(false);
-  }
-  function onError(errors) {
-    console.log(errors);
-    toast({
-      title: "Something went wrong",
-      description: errors,
-    });
-  }
-  const handleFill = () => {
-    console.log(userData);
-    for (const [k, v] of Object.entries(userData)) {
-      if (v) form.setValue(k, v);
-    }
-  };
   const storage = [
     { form: form.getValues() },
     { response: response },
@@ -83,6 +46,22 @@ function App({ userData }) {
     { mainColor: mainColor },
     { template: template },
   ];
+
+  async function onSubmit(values) {
+    setEditedResponse(undefined);
+    setIsLoading(true);
+    const response = await generateResponse(values, setIsLoading);
+    localStorage.setItem("storage", JSON.stringify(storage));
+    setResponse(response);
+    setIsLoading(false);
+  }
+
+  const handleFill = () => {
+    for (const [k, v] of Object.entries(userData)) {
+      if (v) form.setValue(k, v);
+    }
+  };
+
   useEffect(() => {
     const localData = JSON.parse(localStorage.getItem("storage"));
     if (localData) {
@@ -102,7 +81,6 @@ function App({ userData }) {
   }, []);
   useEffect(() => {
     if (response) {
-      console.log("setItem");
       localStorage.setItem("storage", JSON.stringify(storage));
     }
   }, [
@@ -112,7 +90,6 @@ function App({ userData }) {
     fontSize,
     lineHeight,
     mainColor,
-    watchFields,
     template,
   ]);
   return (
@@ -131,12 +108,7 @@ function App({ userData }) {
           </div>
         </div>
         <Suspense fallback={<Spinner />} key={form}>
-          <MainForm
-            form={form}
-            onSubmit={onSubmit}
-            onError={onError}
-            isLoading={isLoading}
-          />
+          <MainForm form={form} onSubmit={onSubmit} isLoading={isLoading} />
         </Suspense>
       </div>
 

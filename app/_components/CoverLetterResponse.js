@@ -22,8 +22,6 @@ function CoverLetterResponse({ name, surname, recipientName, response }) {
     return text.replace(/[&<>"']/g, (char) => map[char]);
   }
   useEffect(() => {
-    console.log(response);
-    console.log(editedResponse);
     editedResponse ? setTempHtml(editedResponse) : setTempHtml(response.data);
   }, [response]);
 

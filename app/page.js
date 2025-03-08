@@ -9,8 +9,13 @@ import TimeSvg from "./_components/TimeSvg";
 import InterfaceSvg from "./_components/InterfaceSvg";
 import LaptopSvg from "./_components/LaptopSvg";
 import Header from "./_components/Header";
+import Script from "next/script";
+import { auth } from "./_lib/auth";
 
-export default function Home() {
+// import CookieConsent from "react-cookie-consent";
+
+export default async function Home() {
+  const session = await auth();
   return (
     <>
       <Header type="landing" />
@@ -40,7 +45,7 @@ export default function Home() {
                 on landing your dream job.
               </p>
               <Button size="xl" asChild>
-                <Link href="/app">Get Started</Link>
+                <Link href="/app">{session ? "To App" : "Get Started"}</Link>
               </Button>
             </div>
           </Container>
@@ -75,25 +80,30 @@ export default function Home() {
               <div className="col-span-6 lg:col-span-2 flex flex-col items-center gap-y-4 text-center">
                 <InterfaceSvg />
                 <h3 className="text-primary-700 font-[family-name:var(--font-heading)] text-3xl">
-                  User-Friendly
+                  Customizable &
                   <br />
-                  Interface
+                  Editable
                 </h3>
                 <p className="text-xl">
-                  Download your cover letter in PDF or plain text formats.
+                  Fine-tune your letter to match your unique voice and career
+                  goals.
                 </p>
               </div>
             </div>
-            <div className="text-center mt-16" disabled>
+            <h5 className="text-primary-600 text-lg font-[family-name:var(--font-heading)] mb-1 text-center mt-8">
+              Completely Free – No hidden costs, no subscriptions — just great
+              cover letters at no charge.
+            </h5>
+            <div className="text-center mt-8" disabled>
               <Button size="xl" asChild>
-                <Link href="/app">Start Now</Link>
+                <Link href="/app">{session ? "To App" : "Start Now"}</Link>
               </Button>
             </div>
           </Container>
         </section>
         <section
           id="how-it-works"
-          className="bg-gradient-to-b from-white via-secondary-400 to-secondary-600 w-full pt-20 sm:pt-28 pb-56"
+          className="bg-gradient-to-b from-white via-secondary-400 to-secondary-600 w-full pt-20 sm:pt-28 pb-44"
         >
           <Container>
             <h2 className="text-primary-700 text-5xl text-center font-[family-name:var(--font-heading)] mb-24 uppercase">
@@ -125,15 +135,25 @@ export default function Home() {
                     3. Download & Apply
                   </h3>
                   <p className="text-xl">
-                    Download your cover letter and submit it with confidence.
+                    Download your cover letter in PDF or plain text formats and
+                    submit it with confidence.
                   </p>
                 </div>
               </div>
             </div>
+            <h5 className="text-primary-700 text-lg font-[family-name:var(--font-heading)] mb-1 text-center mt-14">
+              Start Now – It’s Free! Generate your perfect cover letter in just
+              a few clicks and take your job applications to the next level!
+            </h5>
           </Container>
         </section>
         <Footer />
       </main>
+      <Script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5572183520162427"
+        crossorigin="anonymous"
+      />
     </>
   );
 }

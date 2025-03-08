@@ -16,14 +16,11 @@ import { Sparkles } from "lucide-react";
 import { generateResponse } from "../_lib/actions";
 import Spinner from "./Spinner";
 
-function MainForm({ form, onSubmit, onError, isLoading }) {
+function MainForm({ form, onSubmit, isLoading }) {
   return (
     <div>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit, onError)}
-          className="space-y-3 px-1"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 px-1">
           <ScrollArea className="h-[340px] lg:h-[700px] w-full lg:w-[100%] rounded-md border p-2 sm:p-4 top-0">
             <div className="mb-14">
               <h3
@@ -525,10 +522,15 @@ function MainForm({ form, onSubmit, onError, isLoading }) {
             </div>
           </ScrollArea>
           <div className="flex items-center gap-2">
-            <p className="text-sm">
-              <Sparkles className="w-4 inline-block align-middle" /> Fields will
-              be used to generate the AI-powered cover letter. The rest are
-              optional and can be changed at any time.
+            <p className="text-xs">
+              <Sparkles className="w-3 h-3 inline-block align-middle" /> Fields
+              will be used to generate the AI-powered cover letter. The rest are
+              optional and can be changed at any time. If you have any questions
+              or suggestions,&nbsp;
+              <a className="underline" href="mailto:dsurchin@gmail.com">
+                contact me
+              </a>
+              .
             </p>
           </div>
           <div className="text-center">

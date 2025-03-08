@@ -10,7 +10,7 @@ function BlankTemplate({ watchFields, isLoading }) {
   const { response } = useMainContext();
 
   return (
-    <div className="pt-5 px-5">
+    <div className="pt-5 ps-8 pe-10">
       <div>
         <CredentialsSender watchFields={watchFields} />
         <CredentialsRecipient watchFields={watchFields} />

@@ -33,12 +33,15 @@ function addFont(doc, font) {
   switch (font) {
     case "poppins":
       doc.addFont("/Fonts/Poppins.ttf", "Poppins", "normal");
+      doc.addFont("/Fonts/PoppinsBold.ttf", "Poppins", "bold");
       break;
     case "calibri":
       doc.addFont("/Fonts/Calibri.ttf", "Calibri", "normal");
+      doc.addFont("/Fonts/CalibriBold.ttf", "Calibri", "bold");
       break;
     case "notoSans":
       doc.addFont("/Fonts/NotoSans.ttf", "Noto Sans", "normal");
+      doc.addFont("/Fonts/NotoSansBold.ttf", "Noto Sans", "bold");
       break;
     case "georgia":
       doc.addFont("/Fonts/Georgia.ttf", "Georgia", "normal");
@@ -48,12 +51,14 @@ function addFont(doc, font) {
       break;
   }
 }
-const icEnvelope =
-  '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16"><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/></svg>';
-const icPhone =
-  '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16"><path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/></svg>';
 
-export function toPDF2(target, fileName, fontFamily, fontSize, lineHeight) {
+export async function toPDF2(
+  target,
+  fileName,
+  fontFamily,
+  fontSize,
+  lineHeight
+) {
   const doc = new jsPDF({
     orientation: "portrait",
     unit: "pt",
@@ -66,7 +71,6 @@ export function toPDF2(target, fileName, fontFamily, fontSize, lineHeight) {
   html.style.color = "#000";
   // html.style.padding = "20px";
   html.style.fontFamily = fontFamilies[fontFamily];
-  // html.style.fontFamily = "Poppins";
   html.style.fontSize = fontSizes[fontSize];
   html.style.lineHeight = lineHeights[lineHeight];
   html.innerHTML = target.current.innerHTML;
@@ -75,17 +79,23 @@ export function toPDF2(target, fileName, fontFamily, fontSize, lineHeight) {
   const lists = html.querySelectorAll("li");
   const sizeXl = html.querySelectorAll(".custom-size-xl");
   const sizeSm = html.querySelectorAll(".custom-size-sm");
-  console.log(svgs);
+  if (svgs.length > 1) {
+    await convertSVGtoImg(svgs[0]);
+    await convertSVGtoImg(svgs[1]);
+    await convertSVGtoImg(svgs[2]);
+  }
   svgs.forEach((s) => {
     s.remove();
   });
+
   sizeXl.forEach((size) => {
     size.style.fontSize = "28px";
     size.style.lineHeight = "28px";
   });
   sizeSm.forEach((size) => {
-    size.style.fontSize = "12px";
-    size.style.lineHeight = "12px";
+    size.style.fontSize = "10px";
+    size.style.lineHeight = "10px";
+    size.style.height = "10px";
   });
   unLists.forEach((ul) => {
     ul.style.padding = "0";
@@ -96,7 +106,6 @@ export function toPDF2(target, fileName, fontFamily, fontSize, lineHeight) {
     l.style.listStyleType = "none";
     l.innerHTML = `&#x2022;  ` + html;
   });
-  console.log(html);
   addFont(doc, fontFamily);
 
   if (!target.current) return;
@@ -129,4 +138,46 @@ export const exportPlainText = (targetRef, fileName) => {
 
   // Cleanup
   window.URL.revokeObjectURL(blobURL);
+};
+
+const dataHeader = "data:image/svg+xml;charset=utf-8";
+
+const loadImage = async (url) => {
+  const img = document.createElement("img");
+  img.src = url;
+  return new Promise((resolve, reject) => {
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+  });
+};
+
+const serializeAsXML = (e) => new XMLSerializer().serializeToString(e);
+
+const encodeAsUTF8 = (s) => `${dataHeader},${encodeURIComponent(s)}`;
+const encodeAsB64 = (s) => `${dataHeader};base64,${btoa(s)}`;
+
+const convertSVGtoImg = async (svg) => {
+  const format = "png";
+
+  const svgData = encodeAsUTF8(serializeAsXML(svg));
+  const img = await loadImage(svgData);
+  const canvas = document.createElement("canvas");
+  canvas.width = 16;
+  canvas.height = 16;
+  canvas.getContext("2d").drawImage(img, 0, 0, 16, 16);
+  const dataURL = await canvas.toDataURL(`image/${format}`, 1.0);
+  const wrapper = svg.closest(".img-wrapper");
+
+  // s.remove();
+  if (wrapper) {
+    wrapper.style.position = "relative";
+    console.log(wrapper.clientHeight);
+    wrapper.style.height = "10px";
+    const image = document.createElement("img");
+    image.src = dataURL;
+    wrapper.appendChild(image);
+    image.style.transform = "translate(5px, 5px)";
+    image.style.width = "10px";
+    image.style.height = "10px";
+  }
 };

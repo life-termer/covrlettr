@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import CoverLetterControls from "./CoverLetterControls";
 import TemplateLayout from "./templates/TemplateLayout";
+import VerticalAdd from "./ads/VerticalAdd";
 
 function CoverLetter({ watchFields, response, isLoading }) {
   const { name, surname, position } = watchFields;
@@ -13,12 +14,15 @@ function CoverLetter({ watchFields, response, isLoading }) {
     <div className="h-full">
       <CoverLetterControls targetRef={targetRef} fileName={fileName} />
 
-      <TemplateLayout
-        watchFields={watchFields}
-        targetRef={targetRef}
-        response={response}
-        isLoading={isLoading}
-      />
+      <div className="flex gap-5">
+        <TemplateLayout
+          watchFields={watchFields}
+          targetRef={targetRef}
+          response={response}
+          isLoading={isLoading}
+        />
+        <VerticalAdd />
+      </div>
     </div>
   );
 }

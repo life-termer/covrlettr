@@ -4,14 +4,13 @@ import { Button } from "./_components/ui/button";
 
 export default function Error({ error, reset }) {
   return (
-    <main className="flex justify-center items-center flex-col gap-6">
-      <h1 className="text-3xl font-semibold">Something went wrong!</h1>
+    <main className="text-center space-y-16 t-4 h-screen flex flex-col justify-center items-center">
+      <h1 className="text-4xl font-semibold font-[family-name:var(--font-heading)] uppercase">
+        Something went wrong!
+      </h1>
       <p className="text-lg">{error.message}</p>
 
-      <Button
-        className="inline-block bg-accent-500 text-primary-800 px-6 py-3 text-lg"
-        onClick={reset}
-      >
+      <Button size="xl" onClick={reset}>
         Try again
       </Button>
     </main>

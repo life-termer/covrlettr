@@ -65,7 +65,7 @@ export default async function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel className="mb-6 hover:cursor-pointer">
-            <Link href="/cl">
+            <Link href="/app">
               <Logo />
             </Link>
           </SidebarGroupLabel>

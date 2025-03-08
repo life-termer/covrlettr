@@ -18,17 +18,23 @@ import { useMainContext } from "../_lib/mainContext";
 
 export default function ColorButton() {
   const [open, setOpen] = useState(false);
-  const { mainColor, setMainColor } = useMainContext();
+  const { mainColor, setMainColor, template } = useMainContext();
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
+      <PopoverTrigger
+        asChild
+        className={`${template === "blank" && "pointer-events-none"}`}
+      >
         <span>
           <Button
             variant="secondary"
             role="combobox"
             aria-expanded={open}
-            className="py-x w-full xl:w-[125px]"
+            className={`py-x w-full xl:w-[125px] ${
+              template === "blank" && "pointer-events-none"
+            }`}
+            disabled={template === "blank"}
           >
             <Palette style={{ color: mainColor }} />
             <span className={`hidden xl:block overflow-hidden text-ellipsis`}>

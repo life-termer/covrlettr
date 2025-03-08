@@ -14,14 +14,14 @@ function SimpleTemplate({ watchFields, isLoading }) {
     <>
       <SimpleHeader watchFields={watchFields} />
       <hr />
-      <div className="pt-5 px-5">
+      <div className="pt-5 ps-8 pe-10">
         <CredentialsRecipient watchFields={watchFields} />
       </div>
       {isLoading ? (
         <SpinnerComment />
       ) : (
         response && (
-          <div className=" pt-5 px-5">
+          <div className=" pt-5 ps-8 pe-10">
             <CoverLetterResponse
               name={name}
               surname={surname}

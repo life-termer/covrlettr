@@ -8,9 +8,9 @@ function SimpleHeader({ watchFields }) {
   const { mainColor } = useMainContext();
 
   return (
-    <div className="bg-slate-50 pt-10 px-5">
+    <div className="bg-slate-50 pt-10 ps-8 pe-10">
       <p
-        className="text-4xl mb-8 custom-size-xl"
+        className="text-4xl mb-6 custom-size-xl"
         style={{ color: mainColor, fontWeight: "bold" }}
       >
         {name} {surname}
@@ -18,7 +18,12 @@ function SimpleHeader({ watchFields }) {
       <div className="flex gap-3 text-sm pb-8 custom-size-sm">
         {email && (
           <div className="flex gap-1 items-center">
-            <div className="w-4 h-4" style={{ color: mainColor }}>
+            <div
+              className="w-4 h-4 img-wrapper"
+              style={{
+                color: mainColor,
+              }}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -36,7 +41,7 @@ function SimpleHeader({ watchFields }) {
         )}
         {phone && (
           <div className="flex gap-1 items-center">
-            <div className="w-4 h-4" style={{ color: mainColor }}>
+            <div className="w-4 h-4 img-wrapper" style={{ color: mainColor }}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -54,7 +59,7 @@ function SimpleHeader({ watchFields }) {
         )}
         {address && (
           <div className="flex gap-1 items-center">
-            <div className="w-4 h-4" style={{ color: mainColor }}>
+            <div className="w-4 h-4 img-wrapper" style={{ color: mainColor }}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
