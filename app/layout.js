@@ -5,6 +5,7 @@ import { MainContextProvider } from "./_lib/mainContext";
 import Analytics from "./_components/Analytics";
 import "vanilla-cookieconsent/dist/cookieconsent.css";
 import "@/app/_styles/globals.css";
+import Script from "next/script";
 
 const yesevaOne = Yeseva_One({
   variable: "--font-heading",
@@ -45,6 +46,11 @@ export default function RootLayout({ children }) {
       {/* <GoogleTagManager gtmId="GTM-TZJHD9PZ" /> */}
       <head>
         <Analytics />
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5572183520162427"
+          crossOrigin="anonymous"
+        />
       </head>
       <body
         className={`${yesevaOne.variable} ${josefinSans.variable} ${notoSans.variable} ${poppins.variable} antialiased relative bg-white text-primary-500 font-[family-name:var(--font-text)]`}
