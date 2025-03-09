@@ -46,11 +46,11 @@ export default function RootLayout({ children }) {
       {/* <GoogleTagManager gtmId="GTM-TZJHD9PZ" /> */}
       <head>
         <Analytics />
-        <Script
+        {/* <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5572183520162427"
           crossOrigin="anonymous"
-        />
+        /> */}
       </head>
       <body
         className={`${yesevaOne.variable} ${josefinSans.variable} ${notoSans.variable} ${poppins.variable} antialiased relative bg-white text-primary-500 font-[family-name:var(--font-text)]`}

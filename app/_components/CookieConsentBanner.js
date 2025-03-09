@@ -104,10 +104,25 @@ const CookieConsentBanner = () => {
                         description: "Better user experience",
                       },
                       {
-                        name: "authjs.",
-                        domen: ".covrlettr.eu",
+                        name: "__Host-authjs.csrf-token",
+                        domen: "covrlettr.eu",
                         duration: "Session",
-                        description: "User authentication",
+                        description:
+                          "This cookie is used for CSRF (Cross-Site Request Forgery) protection.",
+                      },
+                      {
+                        name: "__Secure-authjs.callback-url",
+                        domen: "covrlettr.eu",
+                        duration: "Session",
+                        description:
+                          "Stores the callback URL to which the user should be redirected after authentication.",
+                      },
+                      {
+                        name: "__Secure-authjs.session-token",
+                        domen: "covrlettr.eu",
+                        duration: "30 days",
+                        description:
+                          "This cookie contains the user’s session token, which is used to authenticate and maintain the user’s logged-in state.",
                       },
                     ],
                   },
