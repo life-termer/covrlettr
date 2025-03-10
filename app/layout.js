@@ -45,6 +45,11 @@ export default function RootLayout({ children }) {
     <html lang="en">
       {/* <GoogleTagManager gtmId="GTM-TZJHD9PZ" /> */}
       <head>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5572183520162427"
+          crossOrigin="anonymous"
+        ></script>
         <Analytics />
         {/* <Script
           async

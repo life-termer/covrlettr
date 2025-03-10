@@ -8,6 +8,9 @@ import { z } from "zod";
 export async function signInAction() {
   await signIn("google", { redirectTo: "/app" });
 }
+export async function signInActionGit() {
+  await signIn("github", { redirectTo: "/app" });
+}
 
 export async function signOutAction() {
   await signOut();

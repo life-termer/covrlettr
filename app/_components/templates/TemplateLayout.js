@@ -1,6 +1,6 @@
 import { Copy } from "lucide-react";
 import CoverLetterResponse from "@/app/_components/CoverLetterResponse";
-import { ScrollArea } from "@/app/_components/ui/scroll-area";
+import { ScrollArea, ScrollBar } from "@/app/_components/ui/scroll-area";
 import { useToast } from "@/app/_hooks/use-toast";
 import SpinnerComment from "@/app/_components/SpinnerComment";
 import { useMainContext } from "@/app/_lib/mainContext";
@@ -43,14 +43,14 @@ function TemplateLayout({ watchFields, targetRef, isLoading }) {
   };
   return (
     <ScrollArea
-      className={`${fontFamilies[fontFamily]} relative overflow-hidden h-[400px] lg:h-[700px] w-full lg:w-[80%] rounded-md border pb-2 top-0 text-black
+      className={`${fontFamilies[fontFamily]} relative h-[500px] lg:h-[700px] w-full lg:w-[80%] rounded-md border pb-2 top-0 text-black
       ${fontSizes[fontSize]} ${lineHeights[lineHeight]}`}
     >
       <Copy
         onClick={copyToClipboard}
         className="absolute top-1 left-1 cursor-pointer w-4"
       />
-      <div ref={targetRef}>
+      <div className="min-w-[650px]" ref={targetRef}>
         {template === "blank" && (
           <BlankTemplate watchFields={watchFields} isLoading={isLoading} />
         )}
@@ -58,6 +58,7 @@ function TemplateLayout({ watchFields, targetRef, isLoading }) {
           <SimpleTemplate watchFields={watchFields} isLoading={isLoading} />
         )}
       </div>
+      <ScrollBar orientation="horizontal" />
     </ScrollArea>
   );
 }

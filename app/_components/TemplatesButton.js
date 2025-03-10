@@ -70,7 +70,7 @@ export default function TemplatesButton() {
           </Button>
         </span>
       </PopoverTrigger>
-      <PopoverContent className="w-[500px] top-[10px] mt-2">
+      <PopoverContent className="w-[50%] md:w-[500px] top-[10px] mt-2">
         <Carousel className="w-full max-w-sm m-auto">
           <CarouselContent className="-ml-1">
             {templates.map((tmpl, index) => (
@@ -119,8 +119,8 @@ export default function TemplatesButton() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
+          <CarouselPrevious className="top-full md:top-1/2 -left-4 md:-left-12" />
+          <CarouselNext className="top-full md:top-1/2 -right-4 md:-right-12" />
         </Carousel>
       </PopoverContent>
     </Popover>

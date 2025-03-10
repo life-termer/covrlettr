@@ -1,6 +1,7 @@
 import Container from "../_components/Container";
 import Header from "../_components/Header";
 import SignInButtonFacebook from "../_components/SignInButtonFacebook";
+import SignInButtonGithub from "../_components/SignInButtonGithub";
 import SignInButtonGoogle from "../_components/SignInButtonGoogle";
 import SignInButtonLinkedin from "../_components/SignInButtonLinkedin";
 
@@ -17,6 +18,7 @@ export default function Page() {
           <SignInButtonGoogle />
           {/* <SignInButtonFacebook />
           <SignInButtonLinkedin /> */}
+          <SignInButtonGithub />
         </div>
       </Container>
     </>

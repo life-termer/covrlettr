@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
+import GitHub from "next-auth/providers/github";
 import { createUser, getUser } from "./data-service";
 
 const authConfig = {
@@ -8,6 +9,7 @@ const authConfig = {
       clientId: process.env.AUTH_GOOGLE_ID,
       clientSecret: process.env.AUTH_GOOGLE_SECRET,
     }),
+    GitHub,
   ],
   callbacks: {
     authorized({ auth, request }) {
