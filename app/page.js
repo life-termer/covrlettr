@@ -149,11 +149,6 @@ export default async function Home() {
         </section>
         <Footer />
       </main>
-      {/* <Script
-        async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5572183520162427"
-        crossorigin="anonymous"
-      /> */}
     </>
   );
 }
