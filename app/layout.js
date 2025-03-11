@@ -39,7 +39,7 @@ export const metadata = {
     "Easily generate professional cover letters tailored to your experience and job applications. Save time and land your dream job with our intuitive app!",
   appleWebApp: {
     title: "COVRLETTR",
-    manifest: "/manifest",
+    manifest: "/web.manifest",
   },
 };
 
