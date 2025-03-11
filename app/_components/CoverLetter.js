@@ -21,7 +21,6 @@ function CoverLetter({ watchFields, response, isLoading }) {
           response={response}
           isLoading={isLoading}
         />
-        {/* <VerticalAdd /> */}
       </div>
     </div>
   );
