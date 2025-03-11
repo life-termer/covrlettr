@@ -37,12 +37,10 @@ export const metadata = {
   },
   description:
     "Easily generate professional cover letters tailored to your experience and job applications. Save time and land your dream job with our intuitive app!",
-  appleWebApp: {
-    title: "COVRLETTR",
-    manifest: "/web.manifest",
-  },
+  manifest: "/manifest.json",
+  keywords: ["nextjs", "next14", "pwa", "next-pwa"],
 };
-
+console.log(metadata);
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
