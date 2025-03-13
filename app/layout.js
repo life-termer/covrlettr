@@ -37,7 +37,6 @@ export const metadata = {
   },
   description:
     "Easily generate professional cover letters tailored to your experience and job applications. Save time and land your dream job with our intuitive app!",
-  // manifest: "/manifest.json",
   keywords: [
     "AI cover letter generator",
     "automated cover letter",

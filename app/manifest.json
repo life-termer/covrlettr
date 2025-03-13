@@ -9,13 +9,13 @@
       "src": "/web-app-manifest-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "maskable any"
+      "purpose": "any maskable"
     },
     {
       "src": "/web-app-manifest-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "maskable any"
+      "purpose": "any maskable"
     }
   ],
   "screenshots": [
@@ -32,6 +32,13 @@
       "type": "image/png",
       "form_factor": "wide",
       "label": "COVRLETTR app"
+    },
+    {
+      "src": "/screenshot-mobile.png",
+      "sizes": "320x640",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "COVRLETTR mobile"
     }
   ],
   "theme_color": "#ffffff",
