@@ -41,7 +41,7 @@ import {
 const items = [
   {
     title: "Create New",
-    url: "/app",
+    url: "/app/new",
     icon: NotebookPen,
   },
   {
@@ -51,9 +51,8 @@ const items = [
   },
   {
     title: "Cover Letters",
-    url: "#details",
+    url: "/app",
     icon: ContactRound,
-    disabled: true,
   },
 ];
 

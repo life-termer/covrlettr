@@ -12,8 +12,6 @@ import Header from "./_components/Header";
 import Script from "next/script";
 import { auth } from "./_lib/auth";
 
-// import CookieConsent from "react-cookie-consent";
-
 export default async function Home() {
   const session = await auth();
   return (
