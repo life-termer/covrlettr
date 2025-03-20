@@ -9,6 +9,7 @@ import { generateResponse } from "../_lib/openAi";
 import Spinner from "./Spinner";
 import { useToast } from "../_hooks/use-toast";
 import { useMainContext } from "../_lib/mainContext";
+import { set } from "react-hook-form";
 
 function App({ userData, coverLetter }) {
   const {
@@ -49,13 +50,21 @@ function App({ userData, coverLetter }) {
     { mainColor: mainColor },
     { template: template },
   ];
+  const resetData = () => {
+    setResponse(undefined);
+    setEditedResponse(undefined);
+    setFontFamily("arial");
+    setFontSize("m");
+    setLineHeight("m");
+    setMainColor("#000");
+  }
 
   async function onSubmit(values) {
     setEditedResponse(undefined);
     setIsLoading(true);
     const response = await generateResponse(values, setIsLoading);
     localStorage.setItem("storage", JSON.stringify(storage));
-    setResponse(response);
+    setResponse(response.data);
     setIsLoading(false);
   }
 
@@ -64,9 +73,13 @@ function App({ userData, coverLetter }) {
       if (v) form.setValue(k, v);
     }
   };
-
+  // const response1 = JSON.stringify(coverLetter.response);
+  // console.log("response", response);
+  // console.log("editedResponse", editedResponse);
   useEffect(() => {
+    resetData();
     if (coverLetter) {
+      
       setResponse(coverLetter.response);
       setEditedResponse(coverLetter.response);
       setFontFamily(coverLetter.fontFamily);
@@ -93,7 +106,7 @@ function App({ userData, coverLetter }) {
     }
   }, []);
   useEffect(() => {
-    if (response) {
+    if (response && !coverLetter) {
       localStorage.setItem("storage", JSON.stringify(storage));
     }
   }, [
@@ -137,6 +150,7 @@ function App({ userData, coverLetter }) {
             response={response}
             isLoading={isLoading}
             coverLetter={coverLetter}
+            resetData={resetData}
             isValid={isValid}
           />
         </Suspense>

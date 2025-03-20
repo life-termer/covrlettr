@@ -36,6 +36,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip";
+import { reset } from "vanilla-cookieconsent";
+import ResetDataButton from "./ResetDataButton";
 
 // Menu items.
 const items = [
@@ -55,7 +57,14 @@ const items = [
     icon: ContactRound,
   },
 ];
-
+function resetData() {
+  setResponse(undefined);
+  setEditedResponse(undefined);
+  setFontFamily("arial");
+  setFontSize("m");
+  setLineHeight("m");
+  setMainColor("#000");
+}
 export default async function AppSidebar() {
   const session = await auth();
   return (
@@ -101,9 +110,9 @@ export default async function AppSidebar() {
                       className="text-lg font-[family-name:var(--font-heading)] uppercase tracking-wide"
                     >
                       <Link href={item.url}>
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </Link>
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </Link>
                     </SidebarMenuButton>
                   )}
                 </SidebarMenuItem>

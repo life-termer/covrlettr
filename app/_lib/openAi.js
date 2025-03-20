@@ -36,6 +36,6 @@ export async function generateResponse(values) {
   });
 
   const data = completion.choices[0].message.content;
-
+  console.log(data);
   return { data };
 }

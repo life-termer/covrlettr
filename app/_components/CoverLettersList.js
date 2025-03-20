@@ -6,8 +6,8 @@ import { redirect } from "next/navigation";
 
 function CoverLettersList({ coverLetters }) {
   return (
-    <div className="p-16">
-      <div className="grid grid-cols-10 gap-4">
+    <div className="p-4 xl:p-16">
+      <div className="grid grid-cols-2 xsm:grid-cols-3 lg:grid-cols-8 xl:gird-cols-10 gap-4">
         <ClAddNew />
         {coverLetters &&
           coverLetters.map((coverLetter) => (

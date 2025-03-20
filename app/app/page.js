@@ -12,8 +12,8 @@ async function Cl() {
   const { user } = await auth();
   const userData = await getUser(user.email);
   const coverLetters = await getCoverLetters(userData.id);
-  console.log(userData.id);
-  console.log(coverLetters);
+  // console.log(userData.id);
+  // console.log(coverLetters);
 
   return <CoverLettersList userData={userData} coverLetters={coverLetters} />;
 }

@@ -11,7 +11,7 @@ import { Input } from "./ui/input";
 import SubmitButton from "./SubmitButton";
 import { redirect } from "next/navigation";
 
-function SaveButton({ coverLetter, isValid }) {
+function SaveButton({ coverLetter, isValid, resetData }) {
   const { form, trigger } = useMainContext();
   const data = useMainContext();
   const jData = JSON.parse(JSON.stringify(data));
@@ -31,12 +31,15 @@ function SaveButton({ coverLetter, isValid }) {
       if (!isValid) {
         setMessage("Fix the form errors before saving");
       }
-      //   const res = await createCoverLetter(jData);
-      //   console.log("res", res);
-      //   setMessage(res.message);
-      //   if (res.message === "Cover Letter saved!") {
-      //     redirect("/app");
-      //   }
+
+        const res = await createCoverLetter(jData);
+        console.log("res", jData);
+        setMessage(res.message);
+        if (res.message === "Cover Letter saved!") {
+          resetData();
+          localStorage.removeItem("storage");
+          redirect("/app");
+        }
     }
   }
   //   const form = useForm({
@@ -84,7 +87,7 @@ function SaveButton({ coverLetter, isValid }) {
       onClick={handleClick}
       //   disabled={!isValid}
     >
-      Save
+      {coverLetter ? "Update" : "Save"}
     </Button>
   );
 }

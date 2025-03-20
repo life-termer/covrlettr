@@ -117,12 +117,38 @@ export async function updateUser(prevState, formData) {
 }
 
 export async function createCoverLetter(data) {
+  const {response, editedResponse} = data;
   const session = await auth();
   if (!session) throw new Error("You must be logged in");
-  console.log("formdata", data);
   const newCoverLetter = {
     userId: session.user.guestId,
-    response: data.response,
+    response: editedResponse ? editedResponse : response,
+  };
+
+  const { error } = await supabase
+    .from("coverLetters")
+    .insert([newCoverLetter]);
+
+  if (error) {
+    // throw new Error("User could not be updated");
+    return { message: "Cover Letter could not be saved" };
+  }
+
+  // revalidatePath("/account");
+  // redirect("/app/1");
+  return {
+    message: "Cover Letter saved!",
+  };
+
+  // revalidatePath(`/cabins/${bookingData.cabinId}`);
+}
+export async function updateCoverLetter(data) {
+  const {response, editedResponse} = data;
+  const session = await auth();
+  if (!session) throw new Error("You must be logged in");
+  const newCoverLetter = {
+    userId: session.user.guestId,
+    response: response,
   };
 
   const { error } = await supabase

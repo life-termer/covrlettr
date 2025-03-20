@@ -22,7 +22,7 @@ function CoverLetterResponse({ name, surname, recipientName, response }) {
     return text.replace(/[&<>"']/g, (char) => map[char]);
   }
   useEffect(() => {
-    editedResponse ? setTempHtml(editedResponse) : setTempHtml(response.data);
+    editedResponse ? setTempHtml(editedResponse) : setTempHtml(response);
   }, [response]);
 
   return (
