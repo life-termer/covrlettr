@@ -48,10 +48,8 @@ export const metadata = {
     "professional cover letter",
     "AI job application",
     "cover letter writing tool",
-    "",
   ],
 };
-console.log(metadata);
 export default function RootLayout({ children }) {
   return (
     <html lang="en">

@@ -104,6 +104,8 @@ function MainContextProvider({ children }) {
     defaultValues: defaultFormValues,
   });
 
+  const { isValid, trigger } = form.formState;
+
   return (
     <MainContext.Provider
       value={{
@@ -122,6 +124,8 @@ function MainContextProvider({ children }) {
         form,
         editedResponse,
         setEditedResponse,
+        isValid,
+        trigger,
       }}
     >
       {children}

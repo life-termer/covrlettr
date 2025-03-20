@@ -3,9 +3,22 @@ import CoverLetterControls from "./CoverLetterControls";
 import TemplateLayout from "./templates/TemplateLayout";
 import VerticalAdd from "./ads/VerticalAdd";
 import { Button } from "./ui/button";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip";
+import { createCoverLetter } from "../_lib/actions";
+import SaveButton from "./SaveButton";
 
-function CoverLetter({ watchFields, response, isLoading }) {
+function CoverLetter({
+  watchFields,
+  response,
+  isLoading,
+  coverLetter,
+  isValid,
+}) {
   const { name, surname, position } = watchFields;
   const fileName = `${name && name + "-"}${surname && surname + "-"}${
     position && position + "-"
@@ -25,13 +38,15 @@ function CoverLetter({ watchFields, response, isLoading }) {
         />
       </div>
 
-      <div className="w-full lg:w-1/4 mt-8 lg:mt-auto">
+      <div className="w-full lg:w-1/4 mt-8 lg:mt-auto hidden">
         <TooltipProvider>
           <Tooltip>
-            <TooltipTrigger className="w-full">
-              <Button variant="secondary" size="full" disabled>
-                Save
-              </Button>
+            <TooltipTrigger asChild className="w-full">
+              <SaveButton
+                coverLetter={coverLetter}
+                isValid={isValid}
+                disabled
+              />
             </TooltipTrigger>
             <TooltipContent>
               <p>Coming Soon</p>

@@ -15,8 +15,10 @@ import { RadioGroup, RadioGroupItem } from "@/app/_components/ui/radio-group";
 import { Sparkles } from "lucide-react";
 import { generateResponse } from "../_lib/actions";
 import Spinner from "./Spinner";
+import { useMainContext } from "../_lib/mainContext";
 
-function MainForm({ form, onSubmit, isLoading }) {
+function MainForm({ form, onSubmit, isLoading, isValid }) {
+  // const { isValid } = useMainContext;
   return (
     <div>
       <Form {...form}>

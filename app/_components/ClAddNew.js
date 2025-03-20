@@ -1,9 +1,11 @@
 "use client";
 
-import Image from "next/image";
-import { redirect } from 'next/navigation';
+import { redirect } from "next/navigation";
 import { Card, CardContent } from "./ui/card";
-import { FilePlus, FilePlus2 } from "lucide-react";
+import { FilePlus2 } from "lucide-react";
+import { useMainContext } from "../_lib/mainContext";
+import { set } from "react-hook-form";
+import { useId } from "react";
 
 function ClAddNew() {
   return (

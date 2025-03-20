@@ -4,6 +4,8 @@ import { signIn, signOut, auth } from "./auth";
 import { revalidatePath } from "next/cache";
 import { supabase } from "./supabase";
 import { z } from "zod";
+import { useMainContext } from "./mainContext";
+import { redirect } from "next/navigation";
 
 export async function signInAction() {
   await signIn("google", { redirectTo: "/app" });
@@ -112,4 +114,31 @@ export async function updateUser(prevState, formData) {
   return {
     message: "User updated!",
   };
+}
+
+export async function createCoverLetter(data) {
+  const session = await auth();
+  if (!session) throw new Error("You must be logged in");
+  console.log("formdata", data);
+  const newCoverLetter = {
+    userId: session.user.guestId,
+    response: data.response,
+  };
+
+  const { error } = await supabase
+    .from("coverLetters")
+    .insert([newCoverLetter]);
+
+  if (error) {
+    // throw new Error("User could not be updated");
+    return { message: "Cover Letter could not be saved" };
+  }
+
+  // revalidatePath("/account");
+  // redirect("/app/1");
+  return {
+    message: "Cover Letter saved!",
+  };
+
+  // revalidatePath(`/cabins/${bookingData.cabinId}`);
 }

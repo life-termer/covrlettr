@@ -4,13 +4,13 @@ import MainForm from "../_components/MainForm";
 import CoverLetter from "./CoverLetter";
 import { Button } from "./ui/button";
 import { UserRoundCog } from "lucide-react";
-import { Suspense, useEffect, useLayoutEffect, useState } from "react";
+import { Suspense, useEffect, useId, useLayoutEffect, useState } from "react";
 import { generateResponse } from "../_lib/openAi";
 import Spinner from "./Spinner";
 import { useToast } from "../_hooks/use-toast";
 import { useMainContext } from "../_lib/mainContext";
 
-function App({ userData }) {
+function App({ userData, coverLetter }) {
   const {
     response,
     setResponse,
@@ -27,9 +27,12 @@ function App({ userData }) {
     setEditedResponse,
     template,
     setTemplate,
+    isValid,
   } = useMainContext();
   const watchFields = form.watch();
   const { toast } = useToast();
+
+  console.log(isValid);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -63,20 +66,30 @@ function App({ userData }) {
   };
 
   useEffect(() => {
-    const localData = JSON.parse(localStorage.getItem("storage"));
-    if (localData) {
-      for (const [k, v] of Object.entries(localData[0].form)) {
-        if (v && k != "length" && k != "tone") {
-          form.setValue(k, v);
+    if (coverLetter) {
+      setResponse(coverLetter.response);
+      setEditedResponse(coverLetter.response);
+      setFontFamily(coverLetter.fontFamily);
+      setFontSize(coverLetter.fontSize);
+      setLineHeight(coverLetter.lineHeight);
+      setMainColor(coverLetter.mainColor);
+      setTemplate(coverLetter.template);
+    } else {
+      const localData = JSON.parse(localStorage.getItem("storage"));
+      if (localData) {
+        for (const [k, v] of Object.entries(localData[0].form)) {
+          if (v && k != "length" && k != "tone") {
+            form.setValue(k, v);
+          }
         }
+        setResponse(localData[1].response);
+        setEditedResponse(localData[2].editedResponse);
+        setFontFamily(localData[3].fontFamily);
+        setFontSize(localData[4].fontSize);
+        setLineHeight(localData[5].lineHeight);
+        setMainColor(localData[6].mainColor);
+        setTemplate(localData[7].template);
       }
-      setResponse(localData[1].response);
-      setEditedResponse(localData[2].editedResponse);
-      setFontFamily(localData[3].fontFamily);
-      setFontSize(localData[4].fontSize);
-      setLineHeight(localData[5].lineHeight);
-      setMainColor(localData[6].mainColor);
-      setTemplate(localData[7].template);
     }
   }, []);
   useEffect(() => {
@@ -108,7 +121,12 @@ function App({ userData }) {
           </div>
         </div>
         <Suspense fallback={<Spinner />} key={form}>
-          <MainForm form={form} onSubmit={onSubmit} isLoading={isLoading} />
+          <MainForm
+            form={form}
+            onSubmit={onSubmit}
+            isLoading={isLoading}
+            isValid={isValid}
+          />
         </Suspense>
       </div>
 
@@ -118,6 +136,8 @@ function App({ userData }) {
             watchFields={watchFields}
             response={response}
             isLoading={isLoading}
+            coverLetter={coverLetter}
+            isValid={isValid}
           />
         </Suspense>
       </div>
