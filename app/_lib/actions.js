@@ -6,6 +6,7 @@ import { supabase } from "./supabase";
 import { z } from "zod";
 import { useMainContext } from "./mainContext";
 import { redirect } from "next/navigation";
+import { getCoverLetters } from "./data-service";
 
 export async function signInAction() {
   await signIn("google", { redirectTo: "/app" });
@@ -116,13 +117,30 @@ export async function updateUser(prevState, formData) {
   };
 }
 
-export async function createCoverLetter(data) {
-  const {response, editedResponse} = data;
+export async function createCoverLetter(data, form, clName) {
+  const {
+    response,
+    editedResponse,
+    fontFamily,
+    fontSize,
+    lineHeight,
+    mainColor,
+    template,
+  } = data;
   const session = await auth();
   if (!session) throw new Error("You must be logged in");
+  const name = clName.slice(0, 50);
+  console.log("name", name);
   const newCoverLetter = {
+    form: form,
     userId: session.user.guestId,
     response: editedResponse ? editedResponse : response,
+    fontFamily: fontFamily,
+    fontSize: fontSize,
+    lineHeight: lineHeight,
+    mainColor: mainColor,
+    template: template,
+    name: name,
   };
 
   const { error } = await supabase
@@ -142,29 +160,76 @@ export async function createCoverLetter(data) {
 
   // revalidatePath(`/cabins/${bookingData.cabinId}`);
 }
-export async function updateCoverLetter(data) {
-  const {response, editedResponse} = data;
+export async function updateCoverLetter(data, form, clName, id) {
+  const {
+    response,
+    editedResponse,
+    fontFamily,
+    fontSize,
+    lineHeight,
+    mainColor,
+    template,
+  } = data;
+  const name = clName.slice(0, 30);
+  const date = new Date();
+
   const session = await auth();
   if (!session) throw new Error("You must be logged in");
-  const newCoverLetter = {
-    userId: session.user.guestId,
-    response: response,
+
+  const userCL = await getCoverLetters(session.user.guestId);
+  const userCLIds = userCL.map((cv) => cv.id);
+  if (!userCLIds.includes(id))
+    throw new Error("You are not allowed to update this Cover Letter");
+
+  const updateCoverLetter = {
+    form: form,
+    response: editedResponse ? editedResponse : response,
+    fontFamily: fontFamily,
+    fontSize: fontSize,
+    lineHeight: lineHeight,
+    mainColor: mainColor,
+    template: template,
+    name: name,
+    modified_at: date,
   };
 
+  // Mutation
   const { error } = await supabase
     .from("coverLetters")
-    .insert([newCoverLetter]);
+    .update(updateCoverLetter)
+    .eq("id", id)
+    .select()
+    .single();
 
   if (error) {
     // throw new Error("User could not be updated");
-    return { message: "Cover Letter could not be saved" };
+    return { message: "Cover Letter could not be updated" };
   }
 
-  // revalidatePath("/account");
-  // redirect("/app/1");
   return {
-    message: "Cover Letter saved!",
+    message: "Cover Letter updated!",
   };
 
   // revalidatePath(`/cabins/${bookingData.cabinId}`);
+}
+
+export async function deleteCoverLetter(clId) {
+  const session = await auth();
+  if (!session) throw new Error("You must be logged in");
+
+  const userCL = await getCoverLetters(session.user.guestId);
+  const userCLIds = userCL.map((cv) => cv.id);
+  if (!userCLIds.includes(clId))
+    throw new Error("You are not allowed to delete this Cover Letter");
+
+  const { error } = await supabase.from("coverLetters").delete().eq("id", clId);
+
+  if (error) {
+    return { message: "Cover Letter could not be deleted" };
+  }
+
+  revalidatePath("/app");
+  return {
+    message: "Cover Letter deleted!",
+  };
 }

@@ -30,14 +30,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { auth } from "../_lib/auth";
 import SignOutButton from "./SignOutButton";
 import Link from "next/link";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "./ui/tooltip";
-import { reset } from "vanilla-cookieconsent";
-import ResetDataButton from "./ResetDataButton";
+import { useMainContext } from "../_lib/mainContext";
+import ClAddNewSidebar from "./ClAddNewSidebar";
 
 // Menu items.
 const items = [
@@ -57,14 +51,7 @@ const items = [
     icon: ContactRound,
   },
 ];
-function resetData() {
-  setResponse(undefined);
-  setEditedResponse(undefined);
-  setFontFamily("arial");
-  setFontSize("m");
-  setLineHeight("m");
-  setMainColor("#000");
-}
+
 export default async function AppSidebar() {
   const session = await auth();
   return (
@@ -85,36 +72,22 @@ export default async function AppSidebar() {
                   key={item.title}
                   className={item.disabled && "opacity-50 "}
                 >
-                  {item.disabled ? (
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <SidebarMenuButton
-                            asChild
-                            className="text-lg font-[family-name:var(--font-heading)] uppercase tracking-wide"
-                          >
-                            <div>
-                              <item.icon />
-                              <span>{item.title}</span>
-                            </div>
-                          </SidebarMenuButton>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Coming Soon</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  ) : (
-                    <SidebarMenuButton
-                      asChild
-                      className="text-lg font-[family-name:var(--font-heading)] uppercase tracking-wide"
-                    >
+                  <SidebarMenuButton
+                    asChild
+                    className="text-lg font-[family-name:var(--font-heading)] uppercase tracking-wide"
+                  >
+                    {item.url === "/app/new" ? (
+                      <ClAddNewSidebar>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </ClAddNewSidebar>
+                    ) : (
                       <Link href={item.url}>
-                          <item.icon />
-                          <span>{item.title}</span>
-                        </Link>
-                    </SidebarMenuButton>
-                  )}
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    )}
+                  </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>

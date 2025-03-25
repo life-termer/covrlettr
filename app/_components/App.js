@@ -29,11 +29,10 @@ function App({ userData, coverLetter }) {
     template,
     setTemplate,
     isValid,
+    resetData,
   } = useMainContext();
   const watchFields = form.watch();
   const { toast } = useToast();
-
-  console.log(isValid);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -50,14 +49,6 @@ function App({ userData, coverLetter }) {
     { mainColor: mainColor },
     { template: template },
   ];
-  const resetData = () => {
-    setResponse(undefined);
-    setEditedResponse(undefined);
-    setFontFamily("arial");
-    setFontSize("m");
-    setLineHeight("m");
-    setMainColor("#000");
-  }
 
   async function onSubmit(values) {
     setEditedResponse(undefined);
@@ -73,13 +64,17 @@ function App({ userData, coverLetter }) {
       if (v) form.setValue(k, v);
     }
   };
-  // const response1 = JSON.stringify(coverLetter.response);
-  // console.log("response", response);
-  // console.log("editedResponse", editedResponse);
+
   useEffect(() => {
-    resetData();
     if (coverLetter) {
-      
+      const formObj = JSON.parse(coverLetter.form);
+      if (formObj) {
+        for (const [k, v] of Object.entries(formObj)) {
+          if (v && k != "length" && k != "tone") {
+            form.setValue(k, v);
+          }
+        }
+      }
       setResponse(coverLetter.response);
       setEditedResponse(coverLetter.response);
       setFontFamily(coverLetter.fontFamily);
@@ -105,6 +100,7 @@ function App({ userData, coverLetter }) {
       }
     }
   }, []);
+
   useEffect(() => {
     if (response && !coverLetter) {
       localStorage.setItem("storage", JSON.stringify(storage));

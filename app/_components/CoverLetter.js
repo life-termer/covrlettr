@@ -18,14 +18,13 @@ function CoverLetter({
   isLoading,
   coverLetter,
   isValid,
-  resetData
+  resetData,
 }) {
   const { name, surname, position } = watchFields;
   const fileName = `${name && name + "-"}${surname && surname + "-"}${
     position && position + "-"
   }Cover-Letter`;
   const targetRef = useRef();
-  console.log("coverLetter", coverLetter)
   return (
     <div className="h-full flex flex-col">
       <CoverLetterControls targetRef={targetRef} fileName={fileName} />
@@ -39,7 +38,7 @@ function CoverLetter({
         />
       </div>
 
-      <div className="w-full lg:w-1/4 mt-8 lg:mt-auto hidden">
+      <div className="w-full lg:w-1/2 mt-8 lg:mt-auto">
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild className="w-full">

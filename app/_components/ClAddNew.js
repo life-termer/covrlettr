@@ -8,9 +8,16 @@ import { set } from "react-hook-form";
 import { useId } from "react";
 
 function ClAddNew() {
+  const { resetData } = useMainContext();
+
+  const handleClick = () => {
+    resetData();
+    redirect("/app/new");
+  };
+
   return (
     <div className="p-1 flex flex-col items-center">
-      <Card className="mb-3 w-full" onClick={() => redirect("/app/new")}>
+      <Card className="mb-3 w-full" onClick={handleClick}>
         <CardContent className="flex aspect-[1/1.4] items-center justify-center p-2 cursor-pointer bg-transparent">
           <div className="relative z-10 w-full h-full flex items-center justify-center shadow-md">
             <FilePlus2 size={100} strokeWidth={1} />

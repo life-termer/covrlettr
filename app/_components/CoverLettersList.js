@@ -2,7 +2,6 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import ClListItem from "./ClListItem";
 import ClAddNew from "./ClAddNew";
-import { redirect } from "next/navigation";
 
 function CoverLettersList({ coverLetters }) {
   return (

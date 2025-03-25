@@ -105,6 +105,17 @@ function MainContextProvider({ children }) {
   });
 
   const { isValid, trigger } = form.formState;
+  const resetData = () => {
+    localStorage.removeItem("storage");
+    setResponse(undefined);
+    setEditedResponse(undefined);
+    setFontFamily("arial");
+    setFontSize("m");
+    setLineHeight("m");
+    setMainColor("#000");
+    setTemplate("blank");
+    form.reset();
+  };
 
   return (
     <MainContext.Provider
@@ -126,6 +137,7 @@ function MainContextProvider({ children }) {
         setEditedResponse,
         isValid,
         trigger,
+        resetData,
       }}
     >
       {children}

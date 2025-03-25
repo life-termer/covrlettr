@@ -21,7 +21,8 @@ export async function getCoverLetters(userId) {
   const { data, error, count } = await supabase
     .from("coverLetters")
     .select("*")
-    .eq("userId", userId);
+    .eq("userId", userId)
+    .order("modified_at", { ascending: false });
 
   return data;
 }

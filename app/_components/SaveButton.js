@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useLayoutEffect, useState } from "react";
-import { createCoverLetter } from "../_lib/actions";
+import { createCoverLetter, updateCoverLetter } from "../_lib/actions";
 import { useMainContext } from "../_lib/mainContext";
 import { Button } from "./ui/button";
 import { toast } from "../_hooks/use-toast";
@@ -15,38 +15,33 @@ function SaveButton({ coverLetter, isValid, resetData }) {
   const { form, trigger } = useMainContext();
   const data = useMainContext();
   const jData = JSON.parse(JSON.stringify(data));
-  const initialState = {
-    message: "",
-  };
-  const [message, setMessage] = useState("");
-  //   const [state, formAction, pending] = useActionState(
-  //     createCoverLetter,
-  //     initialState
-  //   );
-  async function handleClick() {
-    if (coverLetter) {
-      setMessage("Update Cover Letter");
-    } else {
-      form.trigger();
-      if (!isValid) {
-        setMessage("Fix the form errors before saving");
-      }
+  const jForm = JSON.parse(JSON.stringify(form.getValues()));
 
-        const res = await createCoverLetter(jData);
-        console.log("res", jData);
-        setMessage(res.message);
-        if (res.message === "Cover Letter saved!") {
-          resetData();
-          localStorage.removeItem("storage");
-          redirect("/app");
-        }
+  const [message, setMessage] = useState("");
+
+  async function handleClick() {
+    const clName = saveForm.getValues("name");
+    form.trigger();
+    if (!isValid) {
+      setMessage("Fix the form errors before saving");
+    } else if (coverLetter) {
+      const res = await updateCoverLetter(jData, jForm, clName, coverLetter.id);
+      setMessage(res.message);
+      // setMessage("Update Cover Letter");
+    } else {
+      const res = await createCoverLetter(jData, jForm, clName);
+      setMessage(res.message);
+      if (res.message === "Cover Letter saved!") {
+        resetData();
+        redirect("/app");
+      }
     }
   }
-  //   const form = useForm({
-  //     defaultValues: {
-  //       response: data.response,
-  //     },
-  //   });
+  const saveForm = useForm({
+    defaultValues: {
+      name: "Cover Letter",
+    },
+  });
   useEffect(() => {
     if (message)
       toast({
@@ -54,41 +49,36 @@ function SaveButton({ coverLetter, isValid, resetData }) {
       });
     setMessage(null);
   }, [message]);
-
+  useEffect(() => {
+    if (coverLetter) {
+      saveForm.setValue("name", coverLetter.name);
+    }
+  }, []);
   return (
-    // <Form {...form}>
-    //   <form action={formAction}>
-    //     <FormField
-    //       control={form.control}
-    //       name="response"
-    //       render={({ field }) => (
-    //         <FormItem>
-    //           <FormControl>
-    //             <Input type="hidden" {...field} />
-    //           </FormControl>
-    //         </FormItem>
-    //       )}
-    //     />
-
-    //     {/* <Input type="hidden" name="response" value={data.response} /> */}
-    //     <SubmitButton pendingLabel="Updating..." pending={pending}>
-    //       Update
-    //     </SubmitButton>
-    //     {/* <Button variant="secondary" size="full">
-    //       Save
-    //     </Button> */}
-    //   </form>
-
-    // </Form>
-
-    <Button
-      variant="secondary"
-      size="full"
-      onClick={handleClick}
-      //   disabled={!isValid}
-    >
-      {coverLetter ? "Update" : "Save"}
-    </Button>
+    <Form {...saveForm}>
+      <form onSubmit={saveForm.handleSubmit(handleClick)}>
+        <div className="flex gap-4 w-full">
+          <FormField
+            control={saveForm.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem className="w-full px-1">
+                <FormControl>
+                  <Input placeholder="Cover Letter" {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <Button
+            variant="secondary"
+            size="full"
+            //   disabled={!isValid}
+          >
+            {coverLetter ? "Update" : "Save"}
+          </Button>
+        </div>
+      </form>
+    </Form>
   );
 }
 
