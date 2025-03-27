@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import { supabase } from "./supabase";
 import { auth } from "./auth";
-import { client } from "./_contentful/client";
 /////////////
 // GET
 
@@ -62,15 +61,17 @@ export async function createUser(newUser) {
   return data;
 }
 
-export const getPosts = async () => {
-  const response = await client.getEntries({
-    content_type: "pageBlogPost",
-  });
 
-  // if (error) {
-  //   console.error(error);
-  //   throw new Error("Could not get posts");
-  // }
-
-  return response.items;
-};
+export async function fetchGraphQL(query) {
+  return fetch(
+    `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.CONTENTFUL_ACCESS_TOKEN}`,
+      },
+      body: JSON.stringify({ query }),
+    }
+  ).then((response) => response.json());
+}

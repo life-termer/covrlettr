@@ -5,6 +5,17 @@ const nextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV !== "development", // Remove console.log in production
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.ctfassets.net',
+        port: '',
+        // pathname: '/account123/**',
+        search: '',
+      },
+    ],
+  },
 };
 
 export default withPWA({
