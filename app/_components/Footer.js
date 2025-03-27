@@ -3,7 +3,7 @@ import Container from "./Container";
 
 function Footer() {
   return (
-    <footer className="py-3 bg-primary-500 text-white text-sm font-[family-name:var(--font-heading)]">
+    <footer className="py-3 mt-auto bg-primary-500 text-white text-sm font-[family-name:var(--font-heading)]">
       <Container>
         <div className="flex content-between items-center flex-col sm:flex-row gap-1">
           <div className="flex-auto order-2 sm:order-1">
