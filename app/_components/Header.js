@@ -11,6 +11,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import SignOutButton from "./SignOutButton";
 import { User } from "lucide-react";
+import LogoBlog from "./LogoBlog";
 
 async function Header({ type }) {
   const session = await auth();
@@ -20,9 +21,16 @@ async function Header({ type }) {
       <Container>
         <div className="flex content-between items-center h-10">
           <div className="grow flex items-center gap-x-32">
-            <a href={type === "landing" ? "#top" : "/"}>
-              <Logo type="landing" />
-            </a>
+            <div className="flex items-center">
+              <a href={type === "landing" ? "#top" : "/"}>
+                <Logo type="landing" />
+              </a>
+              {type === "blog" && (
+                <a href="/blog">
+                  <LogoBlog />
+                </a>
+              )}
+            </div>
             {type === "landing" && (
               <nav className="space-x-12 text-lg hidden lg:block">
                 <a href="#features" className="hover:text-brand">
@@ -31,8 +39,16 @@ async function Header({ type }) {
                 <a href="#how-it-works" className="hover:text-brand">
                   How It Works
                 </a>
+                <Link href="/blog" className="hover:text-brand">
+                  Blog
+                </Link>
               </nav>
             )}
+            {/* {type === "blog" && (
+              <nav className="space-x-12 text-lg hidden lg:block">
+                <Link href="/blog/category">Category</Link>
+              </nav>
+            )} */}
           </div>
           <div className="space-x-3 sm:space-x-8 text-md sm:text-lg">
             {session?.user ? (

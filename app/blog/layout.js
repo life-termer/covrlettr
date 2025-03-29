@@ -5,7 +5,7 @@ import Header from "../_components/Header";
 export default function Layout({ children }) {
   return (
     <main className="w-full min-h-screen flex flex-col">
-      <Header />
+      <Header type="blog" />
       <Container>
         <div className="mt-24">{children}</div>
       </Container>

@@ -74,7 +74,7 @@ function SaveButton({ coverLetter, isValid, resetData }) {
             size="full"
             //   disabled={!isValid}
           >
-            {coverLetter ? "Update" : "Save"}
+            {coverLetter ? "Save Changes" : "Save"}
           </Button>
         </div>
       </form>

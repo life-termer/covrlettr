@@ -1,14 +1,49 @@
+import BreadcrumbWithLink from "@/app/_components/blog/Breadcrumb";
 import RichText from "@/app/_components/blog/RichText";
 import { fetchGraphQL } from "@/app/_lib/data-service";
 import Image from "next/image";
 
-export const metadata = {
-  title: "slug",
+const options = {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
 };
 
+export async function generateMetadata({ params }) {
+  const p = await params;
+  const query = `
+  query {
+  pageBlogPostCollection(
+    where: {
+      slug: "${p.slug}"
+    }
+  ) {
+    items {
+      seoFields {
+        pageTitle
+        pageDescription
+        keywords
+      }
+      publishedDate
+    }
+  }
+}
+`;
+
+  const response = await fetchGraphQL(query);
+  const { publishedDate, seoFields } =
+    response.data.pageBlogPostCollection.items[0];
+  const date = new Date(publishedDate);
+  return {
+    title: seoFields.pageTitle,
+    description: `${date.toLocaleDateString("en-En", options)} - ${
+      seoFields.pageDescription
+    }`,
+    keywords: seoFields.keywords,
+  };
+}
 async function Post({ params }) {
   const p = await params;
-  console.log("slug", p.slug);
 
   const query = `
   query {
@@ -19,44 +54,68 @@ async function Post({ params }) {
   ) {
     items {
       slug
-      seoFields {
-        pageDescription
-      }
       title
       shortDescription
       publishedDate
+      timeToRead
       featuredImage {
         fileName
         title
         description
         width
         url
+        height
       }
       content {
         json
+      }
+        relatedBlogPostsCollection {
+        total
+        items {
+          title
+          slug
+          publishedDate
+          featuredImage {
+            fileName
+            title
+            description
+            width
+            url
+            height
+          }
+        }
       }
     }
   }
 }
 `;
   const response = await fetchGraphQL(query);
-  const { title, content, featuredImage } =
+  const { title, content, featuredImage, publishedDate, timeToRead } =
     response.data.pageBlogPostCollection.items[0];
+
+  const date = new Date(publishedDate);
   return (
     <>
-      <h1 className="text-center mb-8 text-4xl">{title}</h1>
+      <div className="mb-8">
+        <BreadcrumbWithLink title={title} />
+      </div>
+      <p className="text-right text-gray-600 text-sm mb-8">
+        <span className="me-2">
+          {date.toLocaleDateString("en-En", options)},
+        </span>
+        <span>{timeToRead}</span>
+      </p>
+      <h1 className="text-primary-700 text-2xl sm:text-3xl lg:text-5xl font-[family-name:var(--font-heading)] uppercase text-center mb-14">
+        {title}
+      </h1>
       <Image
-      className="m-auto mb-8"
+        className="m-auto mb-8 max-w-screen-md w-full"
         src={featuredImage.url}
         alt={featuredImage.title}
         width={featuredImage.width}
-        height={500}
+        height={featuredImage.height}
       />
       <RichText content={content.json} />
-
-      {/* {content.json.content.map((block) => (
-        <p key={block.content[0]?.value}>{block.content[0]?.value}</p>
-      ))} */}
     </>
   );
 }

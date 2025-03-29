@@ -12,6 +12,23 @@ import Header from "./_components/Header";
 import Script from "next/script";
 import { auth } from "./_lib/auth";
 
+export const metadata = {
+  description:
+    "Easily generate professional cover letters tailored to your experience and job applications. Save time and land your dream job with our intuitive app!",
+  keywords: [
+    "AI cover letter generator",
+    "automated cover letter",
+    "cover letter AI",
+    "job application AI",
+    "resume cover letter",
+    "AI-generated cover letter",
+    "personalized cover letter",
+    "professional cover letter",
+    "AI job application",
+    "cover letter writing tool",
+  ],
+};
+
 export default async function Home() {
   const session = await auth();
   return (
