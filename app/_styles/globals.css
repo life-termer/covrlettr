@@ -14,6 +14,24 @@
 }
 body {
   font-family: Arial, Helvetica, sans-serif;
+  /** Change font **/
+  --cc-font-family: "Josefin Sans";
+
+  /** Change button primary color to black **/
+  --cc-btn-primary-bg: #05445e;
+  --cc-btn-primary-border-color: #033044;
+  --cc-btn-primary-hover-bg: #05445e;
+  --cc-btn-primary-hover-border-color: #033044;
+
+  /** Also make toggles the same color as the button **/
+  /* --cc-toggle-on-bg: var(--cc-btn-primary-bg); */
+
+  /** Make the buttons a bit rounder **/
+  --cc-btn-border-radius: 10px;
+  #cc-main .cm__btn {
+    font-family: "Yeseva One";
+    font-weight: 400;
+  }
 }
 /* body[data-scroll-locked] header .container {
   position: relative;
@@ -55,24 +73,6 @@ body {
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
-    /** Change font **/
-    --cc-font-family: "Josefin Sans";
-
-    /** Change button primary color to black **/
-    --cc-btn-primary-bg: #05445e;
-    --cc-btn-primary-border-color: #033044;
-    --cc-btn-primary-hover-bg: #05445e;
-    --cc-btn-primary-hover-border-color: #033044;
-
-    /** Also make toggles the same color as the button **/
-    /* --cc-toggle-on-bg: var(--cc-btn-primary-bg); */
-
-    /** Make the buttons a bit rounder **/
-    --cc-btn-border-radius: 10px;
-    #cc-main .cm__btn {
-      font-family: "Yeseva One";
-      font-weight: 400;
-    }
   }
   .dark {
     --background: 0 0% 3.9%;
