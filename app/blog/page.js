@@ -1,7 +1,14 @@
-import BlogCard from "../_components/blog/BlogCard";
-import BlogCardFull from "../_components/blog/BlogCardFull";
-import BreadcrumbWithLink from "../_components/blog/Breadcrumb";
+import BlogList from "../_components/blog/BlogList";
 import { fetchGraphQL, getPosts } from "../_lib/data-service";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/app/_components/ui/pagination";
 
 export const metadata = {
   title: "Blog",
@@ -40,29 +47,23 @@ async function Blog() {
 
   return (
     <>
-      <div className="mb-8">
-        <div className="mb-6">
-          <BreadcrumbWithLink />
-        </div>
-        {items.map(
-          (post, index) =>
-            index === 0 && (
-              <BlogCardFull key={post.slug} post={post} type="100" />
-            )
-        )}
-      </div>
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 mb-8 ">
-        {items.map(
-          (post, index) =>
-            index > 0 &&
-            index < 3 && <BlogCardFull key={post.slug} post={post} type="50" />
-        )}
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-8 mb-20">
-        {items.map(
-          (post, index) => index > 2 && <BlogCard key={post.slug} post={post} />
-        )}
-      </div>
+      <BlogList items={items} />
+      <Pagination className="mb-20 hidden">
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious href="#" />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink href="#">1</PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationNext href="#" />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </>
   );
 }
