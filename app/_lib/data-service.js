@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { supabase } from "./supabase";
 import { auth } from "./auth";
+import { blogConfig } from "./utils";
 /////////////
 // GET
 
@@ -61,8 +62,7 @@ export async function createUser(newUser) {
   return data;
 }
 
-
-export async function fetchGraphQL(query) {
+export async function callContentful(query) {
   return fetch(
     `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}`,
     {
@@ -74,4 +74,102 @@ export async function fetchGraphQL(query) {
       body: JSON.stringify({ query }),
     }
   ).then((response) => response.json());
+}
+
+export async function getPaginatedPostSummaries(page) {
+  const skipMultiplier = page === 1 ? 0 : page - 1;
+  const skip =
+    skipMultiplier > 0 ? blogConfig.pagination.pageSize * skipMultiplier : 0;
+  console.log(blogConfig.pagination.pageSize, skip)
+  const query = `
+      {
+      pageBlogPostCollection(
+      limit: ${blogConfig.pagination.pageSize}
+      skip: ${skip}
+      order: publishedDate_DESC) {
+        total
+        items {
+          slug
+          seoFields {
+            pageDescription
+          }
+          title
+          shortDescription
+          publishedDate
+          timeToRead
+          featuredImage {
+            fileName
+            title
+            description
+            width
+            height
+            url
+          }
+        }
+      }
+    }
+    `;
+
+    const response = await callContentful(query);
+    console.log(response.items)
+    const paginatedPostSummaries = response.data.pageBlogPostCollection
+    ? response.data.pageBlogPostCollection
+    : { total: 0, items: [] };
+
+    return paginatedPostSummaries;
+}
+
+export async function getPosts(slug) {
+  
+  const query = `
+  query {
+  pageBlogPostCollection(
+    where: {
+      slug: "${slug}"
+    }
+  ) {
+    items {
+      slug
+      title
+      shortDescription
+      publishedDate
+      timeToRead
+      featuredImage {
+        fileName
+        title
+        description
+        width
+        url
+        height
+      }
+      content {
+        json
+      }
+        relatedBlogPostsCollection {
+        total
+        items {
+          title
+          slug
+          publishedDate
+          featuredImage {
+            fileName
+            title
+            description
+            width
+            url
+            height
+          }
+        }
+      }
+    }
+  }
+}
+`;
+
+    const response = await callContentful(query);
+    const posts = response.data.pageBlogPostCollection.items[0]
+    ? response.data.pageBlogPostCollection.items[0]
+    : { posts: [] };
+
+    return posts;
 }

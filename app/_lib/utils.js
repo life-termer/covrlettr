@@ -181,3 +181,10 @@ const convertSVGtoImg = async (svg) => {
     image.style.height = "10px";
   }
 };
+
+
+export const blogConfig = {
+  pagination: {
+    pageSize: 6,
+  },
+}

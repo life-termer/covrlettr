@@ -1,4 +1,4 @@
-import { fetchGraphQL } from "@/app/_lib/data-service";
+import { callContentful } from "@/app/_lib/data-service";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { BLOCKS, MARKS, INLINES } from "@contentful/rich-text-types";
 import Image from "next/image";
@@ -13,7 +13,7 @@ async function RichText({ content }) {
       }
     }
   `;
-    const response = await fetchGraphQL(query);
+    const response = await callContentful(query);
     const { slug } = response.data.pageBlogPost;
     const mockEntry = {
       fields: {
@@ -36,7 +36,7 @@ async function RichText({ content }) {
       }
     }
   `;
-    const response = await fetchGraphQL(query);
+    const response = await callContentful(query);
     const { image } = response.data.componentRichImage;
     return image;
   }

@@ -1,6 +1,6 @@
 import BreadcrumbWithLink from "@/app/_components/blog/Breadcrumb";
 import RichText from "@/app/_components/blog/RichText";
-import { fetchGraphQL } from "@/app/_lib/data-service";
+import { callContentful, getPosts } from "@/app/_lib/data-service";
 import Image from "next/image";
 
 const options = {
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }) {
 }
 `;
 
-  const response = await fetchGraphQL(query);
+  const response = await callContentful(query);
   const { publishedDate, seoFields } =
     response.data.pageBlogPostCollection.items[0];
   const date = new Date(publishedDate);
@@ -45,53 +45,8 @@ export async function generateMetadata({ params }) {
 async function Post({ params }) {
   const p = await params;
 
-  const query = `
-  query {
-  pageBlogPostCollection(
-    where: {
-      slug: "${p.slug}"
-    }
-  ) {
-    items {
-      slug
-      title
-      shortDescription
-      publishedDate
-      timeToRead
-      featuredImage {
-        fileName
-        title
-        description
-        width
-        url
-        height
-      }
-      content {
-        json
-      }
-        relatedBlogPostsCollection {
-        total
-        items {
-          title
-          slug
-          publishedDate
-          featuredImage {
-            fileName
-            title
-            description
-            width
-            url
-            height
-          }
-        }
-      }
-    }
-  }
-}
-`;
-  const response = await fetchGraphQL(query);
   const { title, content, featuredImage, publishedDate, timeToRead } =
-    response.data.pageBlogPostCollection.items[0];
+    await getPosts(p.slug);
 
   const date = new Date(publishedDate);
   return (
